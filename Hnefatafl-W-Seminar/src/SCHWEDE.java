@@ -8,8 +8,8 @@ public class SCHWEDE extends FIGUR {
 	
 	//KONSTRUKTOR
 	
-	SCHWEDE(int posX, int posY){
-		super(1, posX, posY);
+	SCHWEDE(){
+		super("Schwede", "S");
 		
 	}
 	

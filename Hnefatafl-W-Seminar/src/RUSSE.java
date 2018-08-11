@@ -8,8 +8,8 @@ public class RUSSE extends FIGUR {
 	
 	//KONSTRUKTOR
 	
-	RUSSE(int posX, int posY){
-		super(0, posX, posY);
+	RUSSE(){
+		super("Russe", "R");
 		
 	}
 	

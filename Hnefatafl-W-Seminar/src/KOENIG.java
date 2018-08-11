@@ -8,8 +8,8 @@ public class KOENIG extends FIGUR {
 	
 	//KONSTRUKTOR
 	
-	KOENIG(int posX, int posY){
-		super(2, posX, posY);
+	KOENIG(){
+		super("Koenig", "K");
 		
 	}
 	

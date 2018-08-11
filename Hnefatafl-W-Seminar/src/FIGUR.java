@@ -1,26 +1,39 @@
 
 public abstract class FIGUR {
 	//ALLGEMEIN
+	
+	/*
+	 * Abstrakte Oberklasse für alle Figuren
+	 * Enthält, für die Objektorientierte Umsetzung, nur den Figurtyp.
+	 * Ursprünglich geplant war auch die Angabe von x- und y-Positionen  
+	 */
 
 	//ATTRIBUTE
 
-	private int figurtyp;
-	private int posX;
-	private int posY;
+	private String figurtyp;
+	private String shortcut;
+	//private int posX;
+	//private int posY;
 
 	//KONSTRUKTOR
-	public FIGUR(int figurtyp, int posX, int posY){
+	public FIGUR(String figurtyp, String shortcut){
 		this.figurtyp = figurtyp;
-		this.posX = posX;
-		this.posY = posY;
+		this.shortcut = shortcut;
+		//this.posX = posX;
+		//this.posY = posY;
 	}
 
 	//METHODEN
 	
-	public int getFigurtyp() {
+	public String getFigurtyp() {
 		return figurtyp;
 	}
 	
+	public String getShortcut() {
+		return shortcut;
+	}
+	
+	/*
 	public int getposX() {
 		return posX;
 	}
@@ -29,11 +42,13 @@ public abstract class FIGUR {
 		return posY;
 	}
 	
-	public void setposX(int newposX) {
-		this.posX = newposX;
+	public void setposX(int posX) {
+		this.posX = posX;
 	}
 	
-	public void setposY(int newposY) {
-		this.posY = newposY;
+	public void setposY(int posY) {
+		this.posY = posY;
 	}
+	*/
+	
 }
