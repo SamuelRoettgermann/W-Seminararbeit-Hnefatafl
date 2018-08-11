@@ -111,6 +111,7 @@ public class FETLAR_HNEFATAFL {
 							this.spielfeld[x_Ausgang][y_Ausgang].setfigur(new LEER()); //Altes Feld wird leer
 							this.spielfeld[x_Ausgang+(felder*x_Faktor)][y_Ausgang+(felder*y_Faktor)].setfigur(tempFigur);
 							//UeberpruefeSchlagen(x_Ausgang+(felder*x_Faktor), y_Ausgang+(felder*y_Faktor), shortcut);
+							return;
 
 						}
 						else
@@ -130,12 +131,10 @@ public class FETLAR_HNEFATAFL {
 				}
 			}
 		}
-		else
-		{
+
 			System.out.println("Ihre Figur konnte nicht bewegt werden."+"\n"+"Bitte ueberpruefen Sie, ob"
 					+ " die Laufbahn, sowie das Ziel frei ist, achten Sie darauf das das Ziel noch auf dem Spielbrett"
 					+ " liegt und ob das Ziel ein Exklusivfeld ist, sollten sie nicht den Koenig ziehen");
-		}
 	}
 
 
@@ -158,7 +157,7 @@ public class FETLAR_HNEFATAFL {
 
 	public static void main(String[] args) {
 		FETLAR_HNEFATAFL testfeld = new FETLAR_HNEFATAFL();
-		testfeld.Bewegen(2, "x", 5, 1, "R");
+		testfeld.Bewegen(2, "x", 6, 2, "R");
 		testfeld.Konsolenausgabe();
 	}
 
