@@ -85,6 +85,8 @@ public class FETLAR_HNEFATAFL {
 			return;
 		}
 
+		x_Ausgang--;
+		y_Ausgang--;
 		int i = 0;
 		int abweichung = felder/Math.abs(felder);
 		int x_Faktor = 0;
@@ -156,7 +158,7 @@ public class FETLAR_HNEFATAFL {
 
 	public static void main(String[] args) {
 		FETLAR_HNEFATAFL testfeld = new FETLAR_HNEFATAFL();
-		testfeld.Bewegen(2, "x", 6, 2, "R");
+		testfeld.Bewegen(2, "x", 5, 1, "R");
 		testfeld.Konsolenausgabe();
 	}
 
