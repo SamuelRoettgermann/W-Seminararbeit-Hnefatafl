@@ -33,6 +33,7 @@ public abstract class FIGUR {
 		return shortcut;
 	}
 	
+	
 	/*
 	public int getposX() {
 		return posX;

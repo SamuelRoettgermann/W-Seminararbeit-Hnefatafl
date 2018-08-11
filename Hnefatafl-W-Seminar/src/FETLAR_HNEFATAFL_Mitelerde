@@ -7,12 +7,12 @@ public class FETLAR_HNEFATAFL {
 	 */
 
 	private FELD spielfeld[][];
-
+	
 	public FETLAR_HNEFATAFL() {
 		this.spielfeld = new FELD[11][11];
 		Startaufstellung();
 	}
-
+	
 	/*
 	 * BENÖTIGTES: 
 	 * 1. Initialisierung des Spielfeldes (Startposition herstellen)   			CHECK
@@ -22,7 +22,7 @@ public class FETLAR_HNEFATAFL {
 	 * 5. Figuren müssen geschlagen werden können
 	 * 6. Sieg muss festgestellt werden können
 	 */
-
+	
 	//Stellt die Startaufstellung her
 	public void Startaufstellung() {
 		for(int x=0; x<=10; x++) {
@@ -48,16 +48,16 @@ public class FETLAR_HNEFATAFL {
 		this.spielfeld[6][6] = new FELD(new SCHWEDE());
 		this.spielfeld[5][5] = new FELD(new KOENIG());
 	}
-
+	
 	public void Konsolenausgabe() {
 		System.out.print("yx"+" ");
 		for(int x=0; x<=8; x++) {
-			System.out.print(x+1+" ");
+		System.out.print(x+1+" ");
 		}
 		System.out.print("10");
 		System.out.print("11");
 		System.out.print("\n");
-
+		
 		for(int y=0; y<=8; y++) {
 			System.out.print(y+1+"  ");
 			for(int x=0; x<=10; x++) {
@@ -65,7 +65,7 @@ public class FETLAR_HNEFATAFL {
 			}
 			System.out.print("\n");
 		}
-
+		
 		for(int y=9; y<=10; y++) {
 			System.out.print(y+1+" ");
 			for(int x=0; x<=10; x++) {
@@ -74,7 +74,7 @@ public class FETLAR_HNEFATAFL {
 			System.out.print("\n");
 		}
 	}
-
+	
 	public void Bewegen(int felder, String richtung, int x_Ausgang, int y_Ausgang, String shortcut) {
 		if(felder == 0) {
 			System.out.print("\n"+"Ihre Figur kann nicht auf der Stelle stehen bleiben");
@@ -84,7 +84,7 @@ public class FETLAR_HNEFATAFL {
 			System.out.print("\n"+"Sie müssen ihre Figur in x- oder y-Richtung bewegen");
 			return;
 		}
-
+		
 		int i = 0;
 		int abweichung = felder/Math.abs(felder);
 		int x_Faktor = 0;
@@ -97,48 +97,80 @@ public class FETLAR_HNEFATAFL {
 		{
 			y_Faktor = 1;
 		}
-		int ausgang = getrelativeausgang(x_Faktor, y_Faktor, x_Ausgang, y_Ausgang);
+		if(felder>0) {
+			if(richtung.equals("x")) {
+				if(x_Ausgang+felder<=11 && x_Ausgang+felder>=1) {
+					for(int Differenz=0; Differenz<=felder; Differenz+=abweichung) {
+						if(this.spielfeld[x_Ausgang+Differenz][y_Ausgang] == -1) {
+							i++;
+							if(i==felder) {
+								if(exklusivfelder(x_Ausgang+felder, y_Ausgang)==false){
+									this.spielfeld[x_Ausgang][y_Ausgang] = -1; //Altes Feld wird leer
+									this.spielfeld[x_Ausgang+felder][y_Ausgang] = shortcut;
+									UeberpruefeSchlagen(x_Ausgang+felder, y_Ausgang, shortcut);
 
-		if(ausgang+felder<=10 && ausgang+felder>=0) {
-			for(int Differenz=1; Differenz<=felder; Differenz+=abweichung) {
-				if(getShortcut(x_Ausgang+(Differenz*x_Faktor), y_Ausgang+(Differenz*y_Faktor)).equals("-")) {
-					i++;
-					if(i== felder) {
-						if(exklusivfelder(x_Ausgang+(felder*x_Faktor), y_Ausgang+(felder*y_Faktor))==false){
-							FIGUR tempFigur = this.spielfeld[x_Ausgang][y_Ausgang].getfigur();
-							this.spielfeld[x_Ausgang][y_Ausgang].setfigur(new LEER()); //Altes Feld wird leer
-							this.spielfeld[x_Ausgang+(felder*x_Faktor)][y_Ausgang+(felder*y_Faktor)].setfigur(tempFigur);
-							//UeberpruefeSchlagen(x_Ausgang+(felder*x_Faktor), y_Ausgang+(felder*y_Faktor), shortcut);
-
-						}
-						else
-						{
-							if(shortcut.equals("K")) {  //KOENIG Sonderbehandlung
-								FIGUR tempFigur = this.spielfeld[x_Ausgang][y_Ausgang].getfigur();
-								this.spielfeld[x_Ausgang][y_Ausgang].setfigur(new LEER()); //Altes Feld wird leer
-								this.spielfeld[x_Ausgang+(felder*x_Faktor)][y_Ausgang+(felder*y_Faktor)].setfigur(tempFigur);
-								//UeberpruefeSchlagen(x_Ausgang+(felder*x_Faktor), y_Ausgang+(felder*y_Faktor), shortcut);
-								if(exklusivfelder(x_Ausgang+(felder*x_Faktor), y_Ausgang+(felder*y_Faktor)) && x_Ausgang+(felder*x_Faktor)!=6 && y_Ausgang+(felder*y_Faktor)!=6) {
-									System.out.print("WEISS GEWINNT!"+"\n"+"Der König hat ein Eckfeld erreicht");
-									return;
+								}
+								else
+								{
+									if(shortcut==2) {  //KOENIG Sonderbehandlung
+										this.spielfeld[x_Ausgang][y_Ausgang] = -1; //Altes Feld wird leer
+										this.spielfeld[x_Ausgang+felder][y_Ausgang] = shortcut;
+										UeberpruefeSchlagen(x_Ausgang+felder, y_Ausgang, shortcut);
+										if(exklusivfelder(x_Ausgang+felder, y_Ausgang) && x_Ausgang+felder!=6 && y_Ausgang!=6) {
+											System.out.print("WEISS GEWINNT!"+"\n"+"Der König hat ein Eckfeld erreicht");
+											return;
+										}
+									}
 								}
 							}
 						}
 					}
 				}
+				else
+				{
+					System.out.println("Ihre Figur konnte nicht bewegt werden."+"\n"+"Bitte ueberpruefen Sie, ob"
+							+ " die Laufbahn, sowie das Ziel frei ist, achten Sie darauf das das Ziel noch auf dem Spielbrett"
+							+ " liegt und ob das Ziel ein Exklusivfeld ist, sollten sie nicht den Koenig ziehen");
+				}
+			}
+			if(richtung.equals("y")) {
+				if(y_Ausgang+felder<=11 && y_Ausgang+felder>=1) {
+					for(int Differenz=0; Differenz<=felder; Differenz++) {
+						if(this.spielfeld[x_Ausgang][y_Ausgang+Differenz] == -1) {
+							i--;
+							if(i== -1*felder) {
+								if(exklusivfelder(x_Ausgang, y_Ausgang+felder)==false){
+									this.spielfeld[x_Ausgang][y_Ausgang] = -1; //Altes Feld wird leer
+									this.spielfeld[x_Ausgang][y_Ausgang+felder] = shortcut;
+								}
+								else
+								{
+									if(shortcut==2) {  //KOENIG Sonderbehandlung
+										this.spielfeld[x_Ausgang][y_Ausgang] = -1; //Altes Feld wird leer
+										this.spielfeld[x_Ausgang][y_Ausgang+felder] = shortcut;
+										if(exklusivfelder(x_Ausgang, y_Ausgang+felder) && x_Ausgang!=6 && y_Ausgang+felder!=6) {
+											System.out.print("WEISS GEWINNT!"+"\n"+"Der König hat ein Eckfeld erreicht");
+											return;
+										}
+									}
+								}
+							}
+						}
+					}
+				}
+				else
+				{
+					System.out.println("Ihre Figur konnte nicht bewegt werden."+"\n"+"Bitte ueberpruefen Sie, ob"
+							+ " die Laufbahn, sowie das Ziel frei ist, achten Sie darauf das das Ziel noch auf dem Spielbrett"
+							+ " liegt und ob das Ziel ein Exklusivfeld ist, sollten sie nicht den Koenig ziehen");
+				}
+		
 			}
 		}
-		else
-		{
-			System.out.println("Ihre Figur konnte nicht bewegt werden."+"\n"+"Bitte ueberpruefen Sie, ob"
-					+ " die Laufbahn, sowie das Ziel frei ist, achten Sie darauf das das Ziel noch auf dem Spielbrett"
-					+ " liegt und ob das Ziel ein Exklusivfeld ist, sollten sie nicht den Koenig ziehen");
-		}
+		
 	}
-
-
-
-
+	
+	
 	public boolean exklusivfelder(int x, int y) {
 		if(x==6 && y==6 || x==1 && y==1 || x==1 && y==11 || x==11 && y==1 || x==11 && y==11) {
 			return true;
@@ -149,47 +181,47 @@ public class FETLAR_HNEFATAFL {
 	public String getShortcut(int x, int y) {
 		return this.spielfeld[x][y].getShortcut();
 	}
-
+	
 	public String getFigurtyp(int x, int y) {
 		return this.spielfeld[x][y].getFigurtyp();
 	}
-
+	
 	public static void main(String[] args) {
 		FETLAR_HNEFATAFL testfeld = new FETLAR_HNEFATAFL();
-		testfeld.Bewegen(2, "x", 6, 2, "R");
 		testfeld.Konsolenausgabe();
+		testfeld.getShortcut(0,0);
 	}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	public int getrelativeausgang(int x_Faktor, int y_Faktor, int x_Ausgang, int y_Ausgang) {
 		return (x_Faktor*x_Ausgang)+(y_Faktor*y_Ausgang);
 	}
-
-
-
-
-
-
-
-
+	
+	
+	
+	
+	
+	
+	
+	
 }
 

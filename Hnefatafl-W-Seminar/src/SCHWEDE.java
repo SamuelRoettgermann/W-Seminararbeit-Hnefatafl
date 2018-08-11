@@ -6,14 +6,17 @@ public class SCHWEDE extends FIGUR {
 	
 	//ATTRIBUTE
 	
+	
 	//KONSTRUKTOR
 	
 	SCHWEDE(){
 		super("Schwede", "S");
 		
 	}
-	
+
+
 	//METHODEN
+	
 	
 
 }

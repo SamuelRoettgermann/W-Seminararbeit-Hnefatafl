@@ -7,7 +7,7 @@ public class LEER extends FIGUR {
 	 */
 	
 	public LEER() {
-		super("leer", "L");
+		super("leer", "-");
 	}
 
 }
