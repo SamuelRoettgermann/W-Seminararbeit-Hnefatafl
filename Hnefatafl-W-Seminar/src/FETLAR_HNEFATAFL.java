@@ -17,8 +17,8 @@ public class FETLAR_HNEFATAFL {
 	 * BENÖTIGTES: 
 	 * 1. Initialisierung des Spielfeldes (Startposition herstellen)   			CHECK
 	 * 2. Ausgabe zur Überprüfung (einfach per Konsole) 						CHECK
-	 * 3. Einfaches Bewegen (ohne alle Kontrollen) muss möglich sein			
-	 * 4. Kommunikation zwischen den Feldern muss möglich sein
+	 * 3. Einfaches Bewegen (ohne alle Kontrollen) muss möglich sein			CHECK
+	 * 4. Überprüfen beim Bewegen												CHECK
 	 * 5. Figuren müssen geschlagen werden können
 	 * 6. Sieg muss festgestellt werden können
 	 */
@@ -75,7 +75,7 @@ public class FETLAR_HNEFATAFL {
 		}
 	}
 
-	public void Bewegen(int felder, String richtung, int x_Ausgang, int y_Ausgang, String shortcut) {
+	public void Bewegen(int felder, String richtung, int x_Ausgang, int y_Ausgang) {
 		if(felder == 0) {
 			System.out.print("\n"+"Ihre Figur kann nicht auf der Stelle stehen bleiben");
 			return;
@@ -103,12 +103,12 @@ public class FETLAR_HNEFATAFL {
 
 		if(ausgang+felder<=10 && ausgang+felder>=0) {
 			for(int Differenz=1; Differenz<=felder; Differenz+=abweichung) {
-				if(getShortcut(x_Ausgang+(Differenz*x_Faktor), y_Ausgang+(Differenz*y_Faktor)).equals("-")) {
+				if(getFigurtyp(x_Ausgang+(Differenz*x_Faktor), y_Ausgang+(Differenz*y_Faktor)).equals("leer")) {
 					i++;
 					if(i== felder) {
 						if(exklusivfelder(x_Ausgang+(felder*x_Faktor), y_Ausgang+(felder*y_Faktor))==false){
 							FIGUR tempFigur = this.spielfeld[x_Ausgang][y_Ausgang].getfigur();
-							this.spielfeld[x_Ausgang][y_Ausgang].setfigur(new LEER()); //Altes Feld wird leer
+							setFigurtyp(x_Ausgang, y_Ausgang, new LEER()); //Altes Feld wird leer
 							this.spielfeld[x_Ausgang+(felder*x_Faktor)][y_Ausgang+(felder*y_Faktor)].setfigur(tempFigur);
 							//UeberpruefeSchlagen(x_Ausgang+(felder*x_Faktor), y_Ausgang+(felder*y_Faktor), shortcut);
 							return;
@@ -116,7 +116,7 @@ public class FETLAR_HNEFATAFL {
 						}
 						else
 						{
-							if(shortcut.equals("K")) {  //KOENIG Sonderbehandlung
+							if(getFigurtyp(x_Ausgang, y_Ausgang).equals("Koenig")) {  //KOENIG Sonderbehandlung
 								FIGUR tempFigur = this.spielfeld[x_Ausgang][y_Ausgang].getfigur();
 								this.spielfeld[x_Ausgang][y_Ausgang].setfigur(new LEER()); //Altes Feld wird leer
 								this.spielfeld[x_Ausgang+(felder*x_Faktor)][y_Ausgang+(felder*y_Faktor)].setfigur(tempFigur);
@@ -138,7 +138,51 @@ public class FETLAR_HNEFATAFL {
 	}
 
 
-
+	/*
+	 * NOCH UNFERTIG MUSS MÖGLICHKEIT BIETEN FÜR BEIDE SEITEN ZU FUNKTIONIEREN (NICHT NUR WEISS)
+	 * AUSSERDEM MUSS DER CODE GEKÜRZT WERDEN (SCHWARZ/WEISS, TÜRME/KOENIG, End 2/End 10, x/y)
+	 */
+	public void UeberpruefeSchlagen(int x_End, int y_End, String figurtyp) {
+		
+		int schwarzFaktor = 0;
+		int weissFaktor = 0;
+		
+		if("Russe".equals(figurtyp)) {
+			schwarzFaktor = 1;
+		}
+		if("Schwede".equals(figurtyp) || "Koenig".equals(figurtyp)) {
+			weissFaktor = 1;
+		}
+		
+		if(x_End > 2) {
+			if(getFigurtyp(x_End-1, y_End).equals("Russe")) {
+				if(getFigurtyp(x_End-2, y_End).equals("Schwede") || getFigurtyp(x_End+2, y_End).equals("Koenig")) {
+					setFigurtyp(x_End-1, y_End, new LEER());
+				}
+			}
+		}
+		if(x_End < 10) {
+			if(getFigurtyp(x_End+1, y_End).equals("Russe")) {
+				if(getFigurtyp(x_End+2, y_End).equals("Schwede") || getFigurtyp(x_End+2, y_End).equals("Koenig")) {
+					setFigurtyp(x_End+1, y_End, new LEER());
+				}
+			}
+		}
+		if(y_End > 2) {
+			if(getFigurtyp(x_End, y_End-1).equals("Russe")) {
+				if(getFigurtyp(x_End, y_End-2).equals("Schwede") || getFigurtyp(x_End-2, y_End).equals("Koenig")) {
+					setFigurtyp(x_End, y_End-1, new LEER());
+				}
+			}
+		}
+		if(y_End < 10) {
+			if(getFigurtyp(x_End, y_End+1).equals("Russe")) {
+				if(getFigurtyp(x_End, y_End+2).equals("Schwede") || getFigurtyp(x_End, y_End+2).equals("Koenig")) {
+					setFigurtyp(x_End, y_End+1, new LEER());
+				}
+			}
+		}
+	}
 
 	public boolean exklusivfelder(int x, int y) {
 		if(x==6 && y==6 || x==1 && y==1 || x==1 && y==11 || x==11 && y==1 || x==11 && y==11) {
@@ -154,10 +198,18 @@ public class FETLAR_HNEFATAFL {
 	public String getFigurtyp(int x, int y) {
 		return this.spielfeld[x][y].getFigurtyp();
 	}
-
+	
+	public void setFigurtyp(int x, int y, FIGUR figur) {
+		this.spielfeld[x][y].setfigur(figur);
+	}
+	
+	public FIGUR getFigur(int x, int y) {
+		return this.spielfeld[x][y].getfigur();
+	}
+ 
 	public static void main(String[] args) {
 		FETLAR_HNEFATAFL testfeld = new FETLAR_HNEFATAFL();
-		testfeld.Bewegen(2, "x", 6, 2, "R");
+		testfeld.Bewegen(2, "x", 6, 2);
 		testfeld.Konsolenausgabe();
 	}
 
