@@ -140,44 +140,51 @@ public class FETLAR_HNEFATAFL {
 
 	/*
 	 * NOCH UNFERTIG MUSS MÖGLICHKEIT BIETEN FÜR BEIDE SEITEN ZU FUNKTIONIEREN (NICHT NUR WEISS)
-	 * AUSSERDEM MUSS DER CODE GEKÜRZT WERDEN (SCHWARZ/WEISS, TÜRME/KOENIG, End 2/End 10, x/y)
+	 * AUSSERDEM MUSS DER CODE GEKÜRZT WERDEN (SCHWARZ/WEISS (CHECK), TÜRME/KOENIG, End 2/End 10, x/y)
 	 */
 	public void UeberpruefeSchlagen(int x_End, int y_End, String figurtyp) {
 		
 		int schwarzFaktor = 0;
 		int weissFaktor = 0;
+		String dieserFigurtyp;
+		int x_Faktor = 0;
+		int y_Faktor = 0;
+		int 
 		
-		if("Russe".equals(figurtyp)) {
+		if("schwarz".equals(getFigurtypKategorie(x_End, y_End))) {
 			schwarzFaktor = 1;
 		}
-		if("Schwede".equals(figurtyp) || "Koenig".equals(figurtyp)) {
+		if("weiss".equals(getFigurtypKategorie(x_End, y_End))) {
 			weissFaktor = 1;
 		}
+		dieserFigurtyp = getFigurtypKategorie(x_End, y_End);
+		if(x_End)
+		
 		
 		if(x_End > 2) {
-			if(getFigurtyp(x_End-1, y_End).equals("Russe")) {
-				if(getFigurtyp(x_End-2, y_End).equals("Schwede") || getFigurtyp(x_End+2, y_End).equals("Koenig")) {
+			if(!getFigurtypKategorie(x_End-1, y_End).equals(dieserFigurtyp)) {
+				if(getFigurtypKategorie(x_End-2, y_End).equals(dieserFigurtyp)) {
 					setFigurtyp(x_End-1, y_End, new LEER());
 				}
 			}
 		}
 		if(x_End < 10) {
-			if(getFigurtyp(x_End+1, y_End).equals("Russe")) {
-				if(getFigurtyp(x_End+2, y_End).equals("Schwede") || getFigurtyp(x_End+2, y_End).equals("Koenig")) {
+			if(!getFigurtypKategorie(x_End+1, y_End).equals(dieserFigurtyp)) {
+				if(getFigurtypKategorie(x_End+2, y_End).equals(dieserFigurtyp)) {
 					setFigurtyp(x_End+1, y_End, new LEER());
 				}
 			}
 		}
 		if(y_End > 2) {
-			if(getFigurtyp(x_End, y_End-1).equals("Russe")) {
-				if(getFigurtyp(x_End, y_End-2).equals("Schwede") || getFigurtyp(x_End-2, y_End).equals("Koenig")) {
+			if(!getFigurtypKategorie(x_End, y_End-1).equals(dieserFigurtyp)) {
+				if(getFigurtypKategorie(x_End, y_End-2).equals(dieserFigurtyp)) {
 					setFigurtyp(x_End, y_End-1, new LEER());
 				}
 			}
 		}
 		if(y_End < 10) {
-			if(getFigurtyp(x_End, y_End+1).equals("Russe")) {
-				if(getFigurtyp(x_End, y_End+2).equals("Schwede") || getFigurtyp(x_End, y_End+2).equals("Koenig")) {
+			if(!getFigurtypKategorie(x_End, y_End+1).equals(dieserFigurtyp)) {
+				if(getFigurtypKategorie(x_End, y_End+2).equals(dieserFigurtyp)) {
 					setFigurtyp(x_End, y_End+1, new LEER());
 				}
 			}
@@ -205,6 +212,17 @@ public class FETLAR_HNEFATAFL {
 	
 	public FIGUR getFigur(int x, int y) {
 		return this.spielfeld[x][y].getfigur();
+	}
+	
+	public String getFigurtypKategorie(int x, int y) {
+		if(getFigurtyp(x, y).equals("Russe")) {
+			return "schwarz";
+		}
+		if(getFigurtyp(x, y).equals("Schwede") || getFigurtyp(x, y).equals("Koenig")) {
+			return "weiss";
+		}
+		System.out.print("\n"+"Fehler bei getFigurtypKategorie");
+		return "Fehler";
 	}
  
 	public static void main(String[] args) {
