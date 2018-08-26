@@ -19,8 +19,10 @@ public class FETLAR_HNEFATAFL {
 	 * 2. Ausgabe zur Überprüfung (einfach per Konsole) 						CHECK
 	 * 3. Einfaches Bewegen (ohne alle Kontrollen) muss möglich sein			CHECK
 	 * 4. Überprüfen beim Bewegen												CHECK
-	 * 5. Figuren müssen geschlagen werden können
+	 * 5. Figuren müssen geschlagen werden können								CHECK
 	 * 6. Sieg muss festgestellt werden können
+	 * 7. Abwechselndes Bewegen muss sichergestellt werden können
+	 *    (evtl erst in GUI-Klasse implementieren)				
 	 */
 
 	//Stellt die Startaufstellung her
@@ -50,6 +52,7 @@ public class FETLAR_HNEFATAFL {
 	}
 
 	public void Konsolenausgabe() {
+		System.out.print("\n");
 		System.out.print("yx"+" ");
 		for(int x=0; x<=8; x++) {
 			System.out.print(x+1+" ");
@@ -84,9 +87,15 @@ public class FETLAR_HNEFATAFL {
 			System.out.print("\n"+"Sie müssen ihre Figur in x- oder y-Richtung bewegen");
 			return;
 		}
-
+		
 		x_Ausgang--;
 		y_Ausgang--;
+		
+		if(getFigurtyp(x_Ausgang, y_Ausgang).equals("leer")) {
+			System.out.print("\n" + "Ups. Sie haben sich wohl mit den Koordinaten vertan. An dieser Stelle steht nämlich keine Figur");
+			return;
+		}
+			
 		int i = 0;
 		int abweichung = felder/Math.abs(felder);
 		int x_Faktor = 0;
@@ -110,17 +119,17 @@ public class FETLAR_HNEFATAFL {
 							FIGUR tempFigur = this.spielfeld[x_Ausgang][y_Ausgang].getfigur();
 							setFigurtyp(x_Ausgang, y_Ausgang, new LEER()); //Altes Feld wird leer
 							this.spielfeld[x_Ausgang+(felder*x_Faktor)][y_Ausgang+(felder*y_Faktor)].setfigur(tempFigur);
-							//UeberpruefeSchlagen(x_Ausgang+(felder*x_Faktor), y_Ausgang+(felder*y_Faktor), shortcut);
+							UeberpruefeSchlagenGrob(x_Ausgang+(felder*x_Faktor), y_Ausgang+(felder*y_Faktor));
 							return;
 
 						}
 						else
 						{
 							if(getFigurtyp(x_Ausgang, y_Ausgang).equals("Koenig")) {  //KOENIG Sonderbehandlung
-								FIGUR tempFigur = this.spielfeld[x_Ausgang][y_Ausgang].getfigur();
+								FIGUR tempFigur = this.spielfeld[x_Ausgang][y_Ausgang].getfigur(); //temporäre Figur wird erstellt die die eine Kopie der verschobenen Figur ist
 								this.spielfeld[x_Ausgang][y_Ausgang].setfigur(new LEER()); //Altes Feld wird leer
 								this.spielfeld[x_Ausgang+(felder*x_Faktor)][y_Ausgang+(felder*y_Faktor)].setfigur(tempFigur);
-								//UeberpruefeSchlagen(x_Ausgang+(felder*x_Faktor), y_Ausgang+(felder*y_Faktor), shortcut);
+								UeberpruefeSchlagenGrob(x_Ausgang+(felder*x_Faktor), y_Ausgang+(felder*y_Faktor));
 								if(exklusivfelder(x_Ausgang+(felder*x_Faktor), y_Ausgang+(felder*y_Faktor)) && x_Ausgang+(felder*x_Faktor)!=6 && y_Ausgang+(felder*y_Faktor)!=6) {
 									System.out.print("WEISS GEWINNT!"+"\n"+"Der König hat ein Eckfeld erreicht");
 									return;
@@ -134,31 +143,26 @@ public class FETLAR_HNEFATAFL {
 
 			System.out.println("Ihre Figur konnte nicht bewegt werden."+"\n"+"Bitte ueberpruefen Sie, ob"
 					+ " die Laufbahn, sowie das Ziel frei ist, achten Sie darauf das das Ziel noch auf dem Spielbrett"
-					+ " liegt und ob das Ziel ein Exklusivfeld ist, sollten sie nicht den Koenig ziehen");
+					+ "\n" + "liegt, oder ob das Ziel ein Exklusivfeld ist, sollten sie nicht den Koenig ziehen.");
 	}
 
 
 	/*
 	 * NOCH UNFERTIG MUSS MÖGLICHKEIT BIETEN FÜR BEIDE SEITEN ZU FUNKTIONIEREN (NICHT NUR WEISS)
 	 * AUSSERDEM MUSS DER CODE GEKÜRZT WERDEN (SCHWARZ/WEISS (CHECK), TÜRME/KOENIG, End 2/End 10, x/y)
-	 */
-	public void UeberpruefeSchlagen(int x_End, int y_End, String figurtyp) {
+	 * EDIT: TÜRME/KOENIG End 2/End 10 VERKÜRZUNG NICHT SO WIRKLICH MÖGLICH, WEIL SOWIESO ALLES GEPRÜFT WERDEN MUSS
+	 * EVTL. WENN LINKS/OBEN/RECHTS/UNTEN GEGNER DANN PRÜFE DIE 4 FELDER DARUMHERUM (WENN KÖNIG DANN MÜSSEN ALLE 4
+	 * BESETZT SEIN, WENN TURM DANN NUR 2 GEGENÜBERLIEGENDE)
+	 * x/y VERKÜRZUNG AUCH NICHT WIRKLICH MÖGLICH, WEIL IMMER NOCH ALLES GEPRÜFT WERDEN MUSS
+	 * EVTL. ARBEITEN MIT VARIABLEN DIE DIE X/Y KOORDINATEN DER ZU PRÜFENDEN FIGUR BESCHREIBT UND DANN ÜBERPRÜFUNG
+	 * MIT +1/-1 etc.
+	 *
+	public void UeberpruefeSchlagen(int x_End, int y_End) {
 		
-		int schwarzFaktor = 0;
-		int weissFaktor = 0;
 		String dieserFigurtyp;
-		int x_Faktor = 0;
-		int y_Faktor = 0;
-		int 
 		
-		if("schwarz".equals(getFigurtypKategorie(x_End, y_End))) {
-			schwarzFaktor = 1;
-		}
-		if("weiss".equals(getFigurtypKategorie(x_End, y_End))) {
-			weissFaktor = 1;
-		}
 		dieserFigurtyp = getFigurtypKategorie(x_End, y_End);
-		if(x_End)
+		
 		
 		
 		if(x_End > 2) {
@@ -190,9 +194,65 @@ public class FETLAR_HNEFATAFL {
 			}
 		}
 	}
+	
+	*/
+	
+	public void UeberpruefeSchlagenGrob(int x_End, int y_End) {
+
+		/*
+		 * "dieserFigurtyp" meint eigentlich "dieseFigurtypKategorie". Da die Variable aber so oft benötigt wird, wurde
+		 * sie hier vereinfacht nur "dieserFigurtyp" genannt. (Außerdem hatte ich das jetzt schon so gemacht und keinen
+		 * Bock mehr das noch mal mit STRG + F alles umzubenennen (Change it in the end if you mind)
+		 */
+		String dieserFigurtyp;
+		dieserFigurtyp = getFigurtypKategorie(x_End, y_End);
+		
+		
+		
+		if(x_End > 1) {
+			if(!getFigurtypKategorie(x_End-1, y_End).equals(dieserFigurtyp) && !"leer".equals(getFigurtypKategorie(x_End-1,  y_End))) {
+				UeberpruefeSchlagenDetail(x_End-1, y_End, getFigurtyp(x_End-1, y_End), dieserFigurtyp);
+			}
+		}
+		
+		if(x_End < 9) {
+			if(!getFigurtypKategorie(x_End+1, y_End).equals(dieserFigurtyp) && !"leer".equals(getFigurtypKategorie(x_End+1,  y_End))) {
+				UeberpruefeSchlagenDetail(x_End+1, y_End, getFigurtyp(x_End+1, y_End), dieserFigurtyp);
+			}
+		}
+		
+		if(y_End > 1) {
+			if(!getFigurtypKategorie(x_End, y_End-1).equals(dieserFigurtyp) && !"leer".equals(getFigurtypKategorie(x_End,  y_End-1))) {
+				UeberpruefeSchlagenDetail(x_End, y_End-1, getFigurtyp(x_End, y_End-1), dieserFigurtyp);
+			}
+		}
+		
+		if(y_End < 9) {
+			if(!getFigurtypKategorie(x_End, y_End+1).equals(dieserFigurtyp) && !"leer".equals(getFigurtypKategorie(x_End,  y_End+1))) {
+				UeberpruefeSchlagenDetail(x_End, y_End+1, getFigurtyp(x_End, y_End+1), dieserFigurtyp);
+			}
+		}
+	}
+	
+	
+	public void UeberpruefeSchlagenDetail(int x, int y, String figurtypBesiegter, String figurtypKategorieBesieger) {
+		if("Koenig".equals(figurtypBesiegter)) {
+			if(getFigurtypKategorie(x-1, y).equals(figurtypKategorieBesieger) && getFigurtypKategorie(x+1, y).equals(figurtypKategorieBesieger)
+			&& getFigurtypKategorie(x, y+1).equals(figurtypKategorieBesieger) && getFigurtypKategorie(x, y-1).equals(figurtypKategorieBesieger)) {
+				setFigurtyp(x, y, new LEER());
+			}
+		}
+		else
+		{
+			if(getFigurtypKategorie(x-1, y).equals(figurtypKategorieBesieger) && getFigurtypKategorie(x+1, y).equals(figurtypKategorieBesieger)
+			|| getFigurtypKategorie(x, y+1).equals(figurtypKategorieBesieger) && getFigurtypKategorie(x, y-1).equals(figurtypKategorieBesieger)) {
+				setFigurtyp(x, y, new LEER());
+			}
+		}
+	}
 
 	public boolean exklusivfelder(int x, int y) {
-		if(x==6 && y==6 || x==1 && y==1 || x==1 && y==11 || x==11 && y==1 || x==11 && y==11) {
+		if(x==5 && y==5 || x==0 && y==0 || x==0 && y==10 || x==10 && y==0 || x==10 && y==10) {
 			return true;
 		}
 		return false;
@@ -221,13 +281,15 @@ public class FETLAR_HNEFATAFL {
 		if(getFigurtyp(x, y).equals("Schwede") || getFigurtyp(x, y).equals("Koenig")) {
 			return "weiss";
 		}
-		System.out.print("\n"+"Fehler bei getFigurtypKategorie");
-		return "Fehler";
+		return "leer";
 	}
  
 	public static void main(String[] args) {
 		FETLAR_HNEFATAFL testfeld = new FETLAR_HNEFATAFL();
 		testfeld.Bewegen(2, "x", 6, 2);
+		testfeld.Bewegen(3, "y", 5, 1);
+		testfeld.Bewegen(2, "x", 1, 1);
+		testfeld.Bewegen(3, "y", 7, 1);
 		testfeld.Konsolenausgabe();
 	}
 
