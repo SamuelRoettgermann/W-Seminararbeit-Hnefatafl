@@ -6,25 +6,12 @@ public class FELD {
 	 * Ein Feld hat eine
 	 */
 	
-	//int posX;
-	//int posY;
 	private FIGUR figur;
 	
 	public FELD(FIGUR figur) {
-		//this.posX = posX;
-		//this.posY = posY;
 		this.figur = figur;
 	}
 	
-	/*
-	public int getposX() {
-		return posX;
-	}
-
-	public int getposY() {
-		return posY;
-	}
-	*/
 	
 	public FIGUR getfigur() {
 		return figur;

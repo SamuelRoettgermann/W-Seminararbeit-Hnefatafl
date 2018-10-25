@@ -12,15 +12,11 @@ public abstract class FIGUR {
 
 	private String figurtyp;
 	private String shortcut;
-	//private int posX;
-	//private int posY;
 
 	//KONSTRUKTOR
 	public FIGUR(String figurtyp, String shortcut){
 		this.figurtyp = figurtyp;
 		this.shortcut = shortcut;
-		//this.posX = posX;
-		//this.posY = posY;
 	}
 
 	//METHODEN

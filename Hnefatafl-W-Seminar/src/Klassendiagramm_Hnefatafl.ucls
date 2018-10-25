@@ -3,128 +3,107 @@
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
   <class id="1" language="java" name="FELD" project="Hnefatafl-W-Seminar" file="/Hnefatafl-W-Seminar/src/FELD.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="748" y="393"/>    
+    <position height="-1" width="-1" x="959" y="376"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="2" language="java" name="FETLAR_HNEFATAFL" project="Hnefatafl-W-Seminar" 
-    file="/Hnefatafl-W-Seminar/src/FETLAR_HNEFATAFL.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="495" y="312"/>    
-    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
-      sort-features="false" accessors="true" visibility="true">      
-      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
-      <operations public="true" package="true" protected="true" private="true" static="true"/>    
-    </display>  
-  </class>  
-  <class id="3" language="java" name="FIGUR" project="Hnefatafl-W-Seminar" file="/Hnefatafl-W-Seminar/src/FIGUR.java" 
+  <class id="2" language="java" name="FIGUR" project="Hnefatafl-W-Seminar" file="/Hnefatafl-W-Seminar/src/FIGUR.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="952" y="357"/>    
+    <position height="-1" width="-1" x="1158" y="342"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="4" language="java" name="KOENIG" project="Hnefatafl-W-Seminar" file="/Hnefatafl-W-Seminar/src/KOENIG.java" 
+  <class id="3" language="java" name="KOENIG" project="Hnefatafl-W-Seminar" file="/Hnefatafl-W-Seminar/src/KOENIG.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1137" y="505"/>    
+    <position height="-1" width="-1" x="1343" y="490"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="5" language="java" name="LEER" project="Hnefatafl-W-Seminar" file="/Hnefatafl-W-Seminar/src/LEER.java" 
+  <class id="4" language="java" name="LEER" project="Hnefatafl-W-Seminar" file="/Hnefatafl-W-Seminar/src/LEER.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1133" y="308"/>    
+    <position height="-1" width="-1" x="1339" y="293"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="6" language="java" name="RUSSE" project="Hnefatafl-W-Seminar" file="/Hnefatafl-W-Seminar/src/RUSSE.java" 
+  <class id="5" language="java" name="RUSSE" project="Hnefatafl-W-Seminar" file="/Hnefatafl-W-Seminar/src/RUSSE.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1134" y="405"/>    
+    <position height="-1" width="-1" x="1340" y="390"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="7" language="java" name="SCHWEDE" project="Hnefatafl-W-Seminar" 
+  <class id="6" language="java" name="SCHWEDE" project="Hnefatafl-W-Seminar" 
     file="/Hnefatafl-W-Seminar/src/SCHWEDE.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1135" y="206"/>    
+    <position height="-1" width="-1" x="1341" y="191"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="8" language="java" name="SPIELBRETT" project="Hnefatafl-W-Seminar" 
-    file="/Hnefatafl-W-Seminar/src/SPIELBRETT.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="753" y="200"/>    
+  <class id="7" language="java" name="FETLAR_HNEFATAFL" project="Hnefatafl-W-Seminar" 
+    file="/Hnefatafl-W-Seminar/src/FETLAR_HNEFATAFL.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="685" y="294"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <association id="9">    
-    <end type="SOURCE" refId="2" navigable="false">      
-      <attribute id="10" name="spielfeld">        
-        <position height="0" width="0" x="292" y="68"/>      
-      </attribute>      
-      <multiplicity id="11" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="292" y="68"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="1" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="12">    
-    <end type="SOURCE" refId="8" navigable="false">      
-      <attribute id="13" name="feld">        
-        <position height="0" width="0" x="292" y="68"/>      
-      </attribute>      
-      <multiplicity id="14" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="292" y="68"/>      
-      </multiplicity>    
-    </end>    
-    <end type="TARGET" refId="1" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="15">    
+  <association id="8">    
     <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="16" name="figur">        
-        <position height="0" width="0" x="304" y="2"/>      
+      <attribute id="9" name="figur">        
+        <position height="0" width="0" x="510" y="-13"/>      
       </attribute>      
-      <multiplicity id="17" minimum="0" maximum="1">        
-        <position height="0" width="0" x="304" y="2"/>      
+      <multiplicity id="10" minimum="0" maximum="1">        
+        <position height="0" width="0" x="510" y="-13"/>      
       </multiplicity>    
     </end>    
-    <end type="TARGET" refId="3" navigable="true"/>    
+    <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization id="18">    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="3"/>  
-  </generalization>  
-  <generalization id="19">    
-    <end type="SOURCE" refId="6"/>    
-    <end type="TARGET" refId="3"/>  
-  </generalization>  
-  <generalization id="20">    
+  <generalization id="11">    
     <end type="SOURCE" refId="5"/>    
-    <end type="TARGET" refId="3"/>  
+    <end type="TARGET" refId="2"/>  
   </generalization>  
-  <generalization id="21">    
-    <end type="SOURCE" refId="7"/>    
-    <end type="TARGET" refId="3"/>  
+  <generalization id="12">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="2"/>  
   </generalization>  
+  <generalization id="13">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="2"/>  
+  </generalization>  
+  <generalization id="14">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="2"/>  
+  </generalization>  
+  <association id="15">    
+    <end type="SOURCE" refId="7" navigable="false">      
+      <attribute id="16" name="spielfeld">        
+        <position height="0" width="0" x="314" y="5"/>      
+      </attribute>      
+      <multiplicity id="17" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="314" y="5"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     sort-features="false" accessors="true" visibility="true">    
     <attributes public="true" package="true" protected="true" private="true" static="true"/>    
