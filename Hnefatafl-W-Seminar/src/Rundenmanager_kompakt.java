@@ -1,8 +1,8 @@
 
 public class Rundenmanager_kompakt {
 
-	FETLAR_HNEFATAFL spiel;
-	String aktivesTeam;
+	private FETLAR_HNEFATAFL spiel;
+	private String aktivesTeam;
 
 	Rundenmanager_kompakt() {
 		spiel = new FETLAR_HNEFATAFL();
