@@ -3,7 +3,7 @@
   associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
   <class id="1" language="java" name="FELD" project="Hnefatafl-W-Seminar" file="/Hnefatafl-W-Seminar/src/FELD.java" 
     binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1282" y="610"/>    
+    <position height="-1" width="-1" x="1314" y="629"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -57,7 +57,7 @@
   </class>  
   <class id="7" language="java" name="FETLAR_HNEFATAFL" project="Hnefatafl-W-Seminar" 
     file="/Hnefatafl-W-Seminar/src/FETLAR_HNEFATAFL.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="1277" y="353"/>    
+    <position height="-1" width="-1" x="1281" y="309"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -75,7 +75,7 @@
   </class>  
   <class id="9" language="java" name="ZUG_MENSCH" project="Hnefatafl-W-Seminar" 
     file="/Hnefatafl-W-Seminar/src/ZUG_MENSCH.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="482" y="595"/>    
+    <position height="-1" width="-1" x="254" y="538"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -84,85 +84,81 @@
   </class>  
   <class id="10" language="java" name="VERWALTUNG" project="Hnefatafl-W-Seminar" 
     file="/Hnefatafl-W-Seminar/src/VERWALTUNG.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="905" y="140"/>    
+    <position height="-1" width="-1" x="928" y="113"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="11" language="java" name="ZUG_MASCHINE" project="Hnefatafl-W-Seminar" 
-    file="/Hnefatafl-W-Seminar/src/ZUG_MASCHINE.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="822" y="579"/>    
+  <class id="11" language="java" name="ZUG_MASCHINE_SCHWARZ" project="Hnefatafl-W-Seminar" 
+    file="/Hnefatafl-W-Seminar/src/ZUG_MASCHINE_SCHWARZ.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="725" y="532"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <association id="12">    
+  <generalization id="12">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="2"/>  
+  </generalization>  
+  <generalization id="13">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="2"/>  
+  </generalization>  
+  <generalization id="14">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="8"/>  
+  </generalization>  
+  <generalization id="15">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="8"/>  
+  </generalization>  
+  <association id="16">    
     <end type="SOURCE" refId="7" navigable="false">      
-      <attribute id="13" name="spielfeld">        
-        <position height="0" width="0" x="637" y="239"/>      
+      <attribute id="17" name="spielfeld">        
+        <position height="0" width="0" x="669" y="258"/>      
       </attribute>      
-      <multiplicity id="14" minimum="0" maximum="2147483647">        
-        <position height="0" width="0" x="637" y="239"/>      
+      <multiplicity id="18" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="669" y="258"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="1" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization id="15">    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="2"/>  
-  </generalization>  
-  <generalization id="16">    
+  <generalization id="19">    
     <end type="SOURCE" refId="5"/>    
     <end type="TARGET" refId="2"/>  
   </generalization>  
-  <association id="17">    
-    <end type="SOURCE" refId="8" navigable="false">      
-      <attribute id="18" name="aktuellesSpiel"/>      
-      <multiplicity id="19" minimum="0" maximum="1"/>    
+  <association id="20">    
+    <end type="SOURCE" refId="10" navigable="false">      
+      <attribute id="21" name="spiel">        
+        <position height="0" width="0" x="4" y="-44"/>      
+      </attribute>      
+      <multiplicity id="22" minimum="0" maximum="1">        
+        <position height="0" width="0" x="4" y="-44"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="7" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization id="20">    
-    <end type="SOURCE" refId="6"/>    
-    <end type="TARGET" refId="2"/>  
-  </generalization>  
-  <association id="21">    
+  <association id="23">    
     <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="22" name="figur">        
+      <attribute id="24" name="figur">        
         <position height="0" width="0" x="878" y="254"/>      
       </attribute>      
-      <multiplicity id="23" minimum="0" maximum="1">        
+      <multiplicity id="25" minimum="0" maximum="1">        
         <position height="0" width="0" x="878" y="254"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization id="24">    
-    <end type="SOURCE" refId="11"/>    
-    <end type="TARGET" refId="8"/>  
-  </generalization>  
-  <generalization id="25">    
-    <end type="SOURCE" refId="3"/>    
+  <generalization id="26">    
+    <end type="SOURCE" refId="4"/>    
     <end type="TARGET" refId="2"/>  
-  </generalization>  
-  <association id="26">    
-    <end type="SOURCE" refId="10" navigable="false">      
-      <attribute id="27" name="spiel"/>      
-      <multiplicity id="28" minimum="0" maximum="1"/>    
-    </end>    
-    <end type="TARGET" refId="7" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <generalization id="29">    
-    <end type="SOURCE" refId="9"/>    
-    <end type="TARGET" refId="8"/>  
   </generalization>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     sort-features="false" accessors="true" visibility="true">    

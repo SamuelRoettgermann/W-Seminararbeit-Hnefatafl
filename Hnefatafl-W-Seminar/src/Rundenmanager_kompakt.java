@@ -12,7 +12,8 @@ public class Rundenmanager_kompakt {
 
 	public void Bewegen(int felder, String richtung, int x_Ausgang, int y_Ausgang) {
 		if(spiel.getFigurtypKategorie(x_Ausgang, y_Ausgang).equals(aktivesTeam)) {
-			if(spiel.Bewegen(felder, richtung, x_Ausgang, y_Ausgang)) {
+			if(spiel.BewegenMoeglich(felder, richtung, x_Ausgang, y_Ausgang)) {
+				spiel.Bewegen(felder, richtung, x_Ausgang, y_Ausgang);
 				WechselAktivesTeam();
 				spiel.Konsolenausgabe();
 				System.out.println("\n"+"Es wurde gezogen.");

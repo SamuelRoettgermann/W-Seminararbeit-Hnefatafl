@@ -29,4 +29,14 @@ public class FELD {
 		return figur.getShortcut();
 	}
 	
+	public String getFigurtypKategorie() {
+		if(getFigurtyp().equals("Russe")) {
+			return "schwarz";
+		}
+		if(getFigurtyp().equals("Schwede") || getFigurtyp().equals("Koenig")) {
+			return "weiss";
+		}
+		return "leer";
+	}
+	
 }
