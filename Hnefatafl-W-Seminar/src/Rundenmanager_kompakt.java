@@ -1,4 +1,9 @@
+/*
+ * Temporäre Lösung zur kurzen Präsentation des Programms mit einfachen Bewegen-Methoden ohne ZUG-Klasse (nur FETLAR_HNEFATAFL)
+ */
 
+/*
+ * 
 public class Rundenmanager_kompakt {
 
 	private FETLAR_HNEFATAFL spiel;
@@ -34,12 +39,14 @@ public class Rundenmanager_kompakt {
 			aktivesTeam = "schwarz";
 		}
 	}
-	
+
 	public static void main(String[] args) {
 		Rundenmanager_kompakt manager = new Rundenmanager_kompakt();
 		manager.Bewegen(1, "y", 5, 1);
 		manager.Bewegen(1, "y", 7, 1);
 		manager.Bewegen(2, "x", 7, 5);
 	}
-	
+
 }
+
+ */

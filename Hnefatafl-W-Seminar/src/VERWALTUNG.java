@@ -1,12 +1,12 @@
 
 public class VERWALTUNG {
 
-	private FETLAR_HNEFATAFL spiel;
+	private ARD_RI_TAFL spiel;
 	private String aktivesTeam;
 	private ZUG spielerweiss, spielerschwarz;
 
 	public VERWALTUNG(ZUG spielerschwarz, ZUG spielerweiss) {
-		this.spiel = new FETLAR_HNEFATAFL();
+		this.spiel = new ARD_RI_TAFL();
 		this.aktivesTeam = "schwarz";
 		this.spielerweiss = spielerweiss;
 		this.spielerschwarz = spielerschwarz;
@@ -70,7 +70,7 @@ public class VERWALTUNG {
 			}
 		}
 
-		if(getFigurtyp(0, 0).equals("Koenig") || getFigurtyp(0, 10).equals("Koenig") || getFigurtyp(10, 0).equals("Koenig") || getFigurtyp(10, 10).equals("Koenig")) { 
+		if(getFigurtyp(0, 0).equals("Koenig") || getFigurtyp(0, 8).equals("Koenig") || getFigurtyp(8, 0).equals("Koenig") || getFigurtyp(8, 8).equals("Koenig")) { 
 			//Prüft ob der König sich auf einem Eckfeld befindet, wenn ja, gewinnt weiß (Sollte aus der Bewegen Methode rausgezogen werden)
 			System.out.print("WEISS GEWINNT!"+"\n"+"Der König hat ein Eckfeld erreicht");
 			System.exit(0);
@@ -99,7 +99,7 @@ public class VERWALTUNG {
 			}
 		}
 
-		if(x_End < 9) {
+		if(x_End < 5) {
 			if(!getFigurtypKategorie(x_End+1, y_End).equals(dieserFigurtyp) && !"leer".equals(getFigurtypKategorie(x_End+1,  y_End))) {
 				UeberpruefeSchlagenDetail(x_End+1, y_End, getFigurtyp(x_End+1, y_End), dieserFigurtyp ,"x");
 			}
@@ -111,7 +111,7 @@ public class VERWALTUNG {
 			}
 		}
 
-		if(y_End < 9) {
+		if(y_End < 5) {
 			if(!getFigurtypKategorie(x_End, y_End+1).equals(dieserFigurtyp) && !"leer".equals(getFigurtypKategorie(x_End,  y_End+1))) {
 				UeberpruefeSchlagenDetail(x_End, y_End+1, getFigurtyp(x_End, y_End+1), dieserFigurtyp, "y");
 			}
@@ -178,14 +178,11 @@ public class VERWALTUNG {
 		ZUG spielerweisstest = new ZUG_MENSCH("weiss");
 		VERWALTUNG testspiel = new VERWALTUNG(spielerschwarztest, spielerweisstest);
 
-		testspiel.AmZug(-2, "y", 11, 4);
-		testspiel.AmZug(5, "x", 6, 4);
-		testspiel.AmZug(3, "x", 1, 5);
-		testspiel.AmZug(-1, "y", 11, 4);
-		testspiel.AmZug(3, "x", 1, 7);
-		testspiel.AmZug(-1, "x", 6, 8);
-		testspiel.AmZug(-1, "y", 11, 2);
-		testspiel.AmZug(1, "y", 11, 8);
+		testspiel.AmZug(1, "y", 7, 5); //R
+		testspiel.AmZug(2, "x", 5, 5); //S
+		testspiel.AmZug(3, "x", 4, 2); //R
+		testspiel.AmZug(-1, "x", 3, 3); //S
+		testspiel.AmZug(2, "y", 2, 4); //R
 
 
 	}

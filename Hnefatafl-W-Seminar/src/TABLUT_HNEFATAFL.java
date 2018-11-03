@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class FETLAR_HNEFATAFL {
+public class TABLUT_HNEFATAFL {
 
 	/* 
 	 * Aufbau des Spielfeldes durch Zusammenstellen einer Matrix von FELDERn
@@ -26,8 +26,8 @@ public class FETLAR_HNEFATAFL {
 	ArrayList<Integer> geschlageneFigurenTypus;
 
 	//KONSTRUKTOR
-	public FETLAR_HNEFATAFL() {
-		this.spielfeld = new FELD[11][11];
+	public TABLUT_HNEFATAFL() {
+		this.spielfeld = new FELD[9][9];
 		Startaufstellung();
 		Konsolenausgabe();
 		//geschlageneFigurenPosition wird sich nur um die Figuren kümmern die während der Berechnung des "maschinellen Zuges" geschlagen wurden, so dass sie "wiederbelebt" werden können
@@ -38,28 +38,29 @@ public class FETLAR_HNEFATAFL {
 
 	//Stellt die Startaufstellung her
 	public void Startaufstellung() {
-		for(int x=0; x<=10; x++) {
-			for(int y=0; y<=10; y++) {
+		for(int x=0; x<=8; x++) {
+			for(int y=0; y<=8; y++) {
 				this.spielfeld[x][y] = new FELD(new LEER());
 			}
 		}
-		for(int i=3; i<=7; i++) {
+		for(int i=3; i<=5; i++) {
 			this.spielfeld[i][0] = new FELD(new RUSSE());
-			this.spielfeld[i][10] = new FELD(new RUSSE());
+			this.spielfeld[i][8] = new FELD(new RUSSE());
 			this.spielfeld[0][i] = new FELD(new RUSSE());
-			this.spielfeld[10][i] = new FELD(new RUSSE());
-			this.spielfeld[i][5] = new FELD(new SCHWEDE());
-			this.spielfeld[5][i] = new FELD(new SCHWEDE());
+			this.spielfeld[8][i] = new FELD(new RUSSE());
+			this.spielfeld[i][4] = new FELD(new SCHWEDE());
+			this.spielfeld[4][i] = new FELD(new SCHWEDE());
 		}
-		this.spielfeld[5][1] = new FELD(new RUSSE());
-		this.spielfeld[1][5] = new FELD(new RUSSE());
-		this.spielfeld[5][9] = new FELD(new RUSSE());
-		this.spielfeld[9][5] = new FELD(new RUSSE());
-		this.spielfeld[4][4] = new FELD(new SCHWEDE());
-		this.spielfeld[4][6] = new FELD(new SCHWEDE());
+		this.spielfeld[4][1] = new FELD(new RUSSE());
+		this.spielfeld[1][4] = new FELD(new RUSSE());
+		this.spielfeld[4][7] = new FELD(new RUSSE());
+		this.spielfeld[7][4] = new FELD(new RUSSE());
+		
+		this.spielfeld[4][2] = new FELD(new SCHWEDE());
+		this.spielfeld[2][4] = new FELD(new SCHWEDE());
 		this.spielfeld[6][4] = new FELD(new SCHWEDE());
-		this.spielfeld[6][6] = new FELD(new SCHWEDE());
-		this.spielfeld[5][5] = new FELD(new KOENIG());
+		this.spielfeld[4][6] = new FELD(new SCHWEDE());
+		this.spielfeld[4][4] = new FELD(new KOENIG());
 	}
 
 	public void Konsolenausgabe() {
@@ -68,25 +69,17 @@ public class FETLAR_HNEFATAFL {
 		for(int x=0; x<=8; x++) {
 			System.out.print(x+1+" ");
 		}
-		System.out.print("10");
-		System.out.print("11");
+		
 		System.out.print("\n");
 
 		for(int y=0; y<=8; y++) {
 			System.out.print(y+1+"  ");
-			for(int x=0; x<=10; x++) {
+			for(int x=0; x<=8; x++) {
 				System.out.print(getShortcut(x, y)+" ");
 			}
 			System.out.print("\n");
 		}
 
-		for(int y=9; y<=10; y++) {
-			System.out.print(y+1+" ");
-			for(int x=0; x<=10; x++) {
-				System.out.print(getShortcut(x, y)+" ");
-			}
-			System.out.print("\n");
-		}
 		System.out.println("\n"+"_________________________________");
 	}
 
@@ -298,14 +291,14 @@ public class FETLAR_HNEFATAFL {
 	
 
 	public boolean exklusivfelder(int x, int y) {
-		if(x==5 && y==5 || x==0 && y==0 || x==0 && y==10 || x==10 && y==0 || x==10 && y==10) {
+		if(x==4 && y==4 || x==0 && y==0 || x==0 && y==8 || x==8 && y==0 || x==8 && y==8) {
 			return true;
 		}
 		return false;
 	}
 	
 	public boolean randfelder(int x, int y) {
-		if(x==0 && y==0 || x==0 && y==10 || x==10 && y==0 || x==10 && y==10) {
+		if(x==0 && y==0 || x==0 && y==8 || x==8 && y==0 || x==8 && y==8) {
 			return true;
 		}
 		return false;

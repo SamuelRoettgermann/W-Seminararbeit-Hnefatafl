@@ -9,7 +9,7 @@ public class ZUG_MENSCH extends ZUG {
 	}
 
 	@Override
-	public boolean AmZug(int felder, String richtung, int x_Ausgang, int y_Ausgang, FETLAR_HNEFATAFL spiel) {
+	public boolean AmZug(int felder, String richtung, int x_Ausgang, int y_Ausgang, ARD_RI_TAFL spiel) {
 		
 		x_Ausgang--;
 		y_Ausgang--;
@@ -25,7 +25,7 @@ public class ZUG_MENSCH extends ZUG {
 	}
 
 	@Override
-	public boolean GueltigerZug(int felder, String richtung, int x_Ausgang, int y_Ausgang, FETLAR_HNEFATAFL spiel) {
+	public boolean GueltigerZug(int felder, String richtung, int x_Ausgang, int y_Ausgang, ARD_RI_TAFL spiel) {
 		if(spiel.getFigurtypKategorie(x_Ausgang, y_Ausgang).equals(team)) {
 			return super.BewegenMoeglich(felder, richtung, x_Ausgang, y_Ausgang, spiel);
 		}

@@ -11,11 +11,11 @@ public abstract class ZUG {
 		this.team = team;
 	}
 
-	public abstract boolean AmZug(int felder, String richtung, int x_Ausgang, int y_Ausgang, FETLAR_HNEFATAFL spiel);
+	public abstract boolean AmZug(int felder, String richtung, int x_Ausgang, int y_Ausgang, ARD_RI_TAFL spiel);
 
-	public abstract boolean GueltigerZug(int felder, String richtung, int x_Ausgang, int y_Ausgang, FETLAR_HNEFATAFL spiel);
+	public abstract boolean GueltigerZug(int felder, String richtung, int x_Ausgang, int y_Ausgang, ARD_RI_TAFL spiel);
 
-	public boolean BewegenMoeglich(int felder, String richtung, int x_Ausgang, int y_Ausgang, FETLAR_HNEFATAFL spiel) {
+	public boolean BewegenMoeglich(int felder, String richtung, int x_Ausgang, int y_Ausgang, ARD_RI_TAFL spiel) {
 		if(felder == 0) {
 			System.out.print("\n"+"Ihre Figur kann nicht auf der Stelle stehen bleiben");
 			return false;
@@ -44,11 +44,11 @@ public abstract class ZUG {
 		}
 		int ausgang = spiel.getrelativeausgang(x_Faktor, y_Faktor, x_Ausgang, y_Ausgang);
 
-		if(ausgang+felder<=10 && ausgang+felder>=0) {
-			for(int Differenz=abweichung; Differenz<=felder || Differenz>=felder; Differenz+=abweichung) {
+		if(ausgang+felder<=6 && ausgang+felder>=0) {
+			for(int Differenz=abweichung; Math.abs(Differenz) <= Math.abs(felder); Differenz+=abweichung) {
 				if(spiel.getFigurtyp(x_Ausgang+(Differenz*x_Faktor), y_Ausgang+(Differenz*y_Faktor)).equals("leer")) {
 					i+=abweichung;
-					if(i== felder) {
+					if(i == felder) {
 						if(spiel.exklusivfelder(x_Ausgang+(felder*x_Faktor), y_Ausgang+(felder*y_Faktor))==false){
 
 							return true;
