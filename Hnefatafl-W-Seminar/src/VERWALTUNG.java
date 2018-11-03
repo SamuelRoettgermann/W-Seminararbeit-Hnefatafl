@@ -46,13 +46,13 @@ public class VERWALTUNG {
 				WechselAktivesTeam();
 			}
 		}
-		
+
 		else {
 			System.out.println("\n"+"Figur des falschen Teams wurde bewegt. Bitte Figur des richtigen Teams bewegen");
 		}
 		spiel.Konsolenausgabe();
-		
-		
+
+
 
 	}
 
@@ -121,8 +121,10 @@ public class VERWALTUNG {
 
 	public void UeberpruefeSchlagenDetail(int x, int y, String figurtypBesiegter, String figurtypKategorieBesieger, String Schlagrichtung) {
 		if("Koenig".equals(figurtypBesiegter)) {
-			if(getFigurtypKategorie(x-1, y).equals(figurtypKategorieBesieger) && getFigurtypKategorie(x+1, y).equals(figurtypKategorieBesieger)
-					&& getFigurtypKategorie(x, y+1).equals(figurtypKategorieBesieger) && getFigurtypKategorie(x, y-1).equals(figurtypKategorieBesieger)) {
+			if((getFigurtypKategorie(x-1, y).equals(figurtypKategorieBesieger) || spiel.exklusivfelder(x-1, y)) 
+					&& (getFigurtypKategorie(x+1, y).equals(figurtypKategorieBesieger) || spiel.exklusivfelder(x+1, y))
+					&& (getFigurtypKategorie(x, y+1).equals(figurtypKategorieBesieger) || spiel.exklusivfelder(x, y+1)) 
+					&& (getFigurtypKategorie(x, y-1).equals(figurtypKategorieBesieger) || spiel.exklusivfelder(x, y-1))) {
 				setFigurtyp(x, y, new LEER());
 				//König wurde geschlagen
 			}
@@ -130,14 +132,14 @@ public class VERWALTUNG {
 		else
 		{
 			if(Schlagrichtung.equals("x")) {
-				if((getFigurtypKategorie(x-1, y).equals(figurtypKategorieBesieger) || spiel.randfelder(x-1, y)) 
-						&& (getFigurtypKategorie(x+1, y).equals(figurtypKategorieBesieger) || spiel.randfelder(x+1, y))) {
+				if((getFigurtypKategorie(x-1, y).equals(figurtypKategorieBesieger) || spiel.exklusivfelder(x-1, y)) 
+						&& (getFigurtypKategorie(x+1, y).equals(figurtypKategorieBesieger) || spiel.exklusivfelder(x+1, y))) {
 					setFigurtyp(x, y, new LEER());
 				}
 			}
 			if(Schlagrichtung.equals("y")) {
-				if((getFigurtypKategorie(x, y+1).equals(figurtypKategorieBesieger) || spiel.randfelder(x, y+1)) 
-						&& (getFigurtypKategorie(x, y-1).equals(figurtypKategorieBesieger) || spiel.randfelder(x, y-1))) {
+				if((getFigurtypKategorie(x, y+1).equals(figurtypKategorieBesieger) || spiel.exklusivfelder(x, y+1)) 
+						&& (getFigurtypKategorie(x, y-1).equals(figurtypKategorieBesieger) || spiel.exklusivfelder(x, y-1))) {
 					setFigurtyp(x, y, new LEER());
 				}
 			}
@@ -174,15 +176,34 @@ public class VERWALTUNG {
 
 
 	public static void main(String[] args) {
-		ZUG spielerschwarztest = new ZUG_MENSCH("schwarz");
-		ZUG spielerweisstest = new ZUG_MENSCH("weiss");
+		ZUG spielerschwarztest = new ZUG_MASCHINE_LEICHT("schwarz");
+		ZUG spielerweisstest = new ZUG_MASCHINE_LEICHT("weiss");
 		VERWALTUNG testspiel = new VERWALTUNG(spielerschwarztest, spielerweisstest);
 
-		testspiel.AmZug(1, "y", 7, 5); //R
-		testspiel.AmZug(2, "x", 5, 5); //S
-		testspiel.AmZug(3, "x", 4, 2); //R
-		testspiel.AmZug(-1, "x", 3, 3); //S
-		testspiel.AmZug(2, "y", 2, 4); //R
+		testspiel.AmZug(0, "x", 0, 0);
+		testspiel.AmZug(0, "x", 0, 0);
+		testspiel.AmZug(0, "x", 0, 0);
+		testspiel.AmZug(0, "x", 0, 0);
+		testspiel.AmZug(0, "x", 0, 0);
+		testspiel.AmZug(0, "x", 0, 0);
+		testspiel.AmZug(0, "x", 0, 0);
+		testspiel.AmZug(0, "x", 0, 0);
+		testspiel.AmZug(0, "x", 0, 0);
+		testspiel.AmZug(0, "x", 0, 0);
+		testspiel.AmZug(0, "x", 0, 0);
+		testspiel.AmZug(0, "x", 0, 0);
+		testspiel.AmZug(0, "x", 0, 0);
+		testspiel.AmZug(0, "x", 0, 0);
+		testspiel.AmZug(0, "x", 0, 0);
+		testspiel.AmZug(0, "x", 0, 0);
+		testspiel.AmZug(0, "x", 0, 0);
+		
+		
+		
+		
+		
+		
+
 
 
 	}

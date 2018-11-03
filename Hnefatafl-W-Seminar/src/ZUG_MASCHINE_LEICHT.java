@@ -3,6 +3,7 @@
 public class ZUG_MASCHINE_LEICHT extends ZUG {
 
 	int anzahl = 0;
+	int tiefe;
 
 
 	public ZUG_MASCHINE_LEICHT(String team) {
@@ -11,6 +12,8 @@ public class ZUG_MASCHINE_LEICHT extends ZUG {
 		richtungberechnet = "x";
 		x_Ausgangberechnet = 0;
 		y_Ausgangberechnet = 0;
+		tiefe = 3;
+		
 	}
 
 	@Override
@@ -24,12 +27,14 @@ public class ZUG_MASCHINE_LEICHT extends ZUG {
 	 */
 	public boolean AmZug(int felder, String richtung, int x_Ausgang, int y_Ausgang, ARD_RI_TAFL spiel) {
 		if(team.equals("schwarz")) {
-			max(2, spiel);
+			max(tiefe, spiel, 0);
+			
 		}
 		else {
-			min(2, spiel);
+			min(tiefe, spiel, 0);
+			
 		}
-		return false;
+		return true;
 	}
 
 	@Override
@@ -40,22 +45,23 @@ public class ZUG_MASCHINE_LEICHT extends ZUG {
 		return false;
 	}
 
-	public void Minimax(int tiefe, int maxTiefe, ARD_RI_TAFL spiel) {
-		if(tiefe == maxTiefe || UeberpruefeSieg(spiel)) {
 
-		}
-	}
 
 	/*
 	 * Noch fehlt die Auswertung des Zuges, sowie die Möglichkeit den Scheiß Zug zu speichern
 	 * EDIT: Der Scheiß Zug kann jetzt hoffentlich gespeichert werden
 	 */
 
-	int max(int depth, ARD_RI_TAFL spiel) {
+	int max(int depth, ARD_RI_TAFL spiel, int geschlagen) {
 		if(depth == 0 || UeberpruefeSieg(spiel)) {
-			return Auswertung(spiel);
+			/*
+			 * In der nachfolgenden Zeile muss "weiss" als Parameter eingesetzt werden, da diese Auswertung 
+			 * ja von der min-Methode aufgerufen wird und evtl. geschlagene Figuren ja zugunsten von weiß
+			 * angerechnet werden müssen.
+			 */
+			return Auswertung(spiel, geschlagen,"weiss");
 		}
-		int maxWert = -1000;
+		int maxWert = -1001;
 		int value;
 
 
@@ -66,93 +72,81 @@ public class ZUG_MASCHINE_LEICHT extends ZUG {
 						if(spiel.getFigurtyp(xn, y).equals("leer")) {
 							if(spiel.exklusivfelder(x+(xn-x), y) == false) {
 								spiel.Bewegen(xn-x, "x", x, y);
-								if(spiel.UeberpruefeSchlagenGrobMaschine(x+(xn-x), y)) {
-									value = max(depth - 1, spiel);
-									spiel.BewegenRueckgaengig(xn-x, "x", x, y);
+								int anzahlGeschlageneFiguren = spiel.UeberpruefeSchlagenGrobMaschine(x+(xn-x), y);
+								value = min(depth - 1, spiel, anzahlGeschlageneFiguren+geschlagen);
+								spiel.BewegenRueckgaengig(xn-x, "x", x, y);
+								for(int i = 0; i < Math.abs(anzahlGeschlageneFiguren); i++) {
 									spiel.SchlagenRueckgaengig();
 								}
-								else {
-									value = max(depth - 1, spiel);
-									spiel.BewegenRueckgaengig(xn-x, "x", x, y);
-								}
-								if(value >= maxWert) {
+								if(value > maxWert) {
 									maxWert = value;
-									felderberechnet = xn-x;
-									richtungberechnet = "x";
-									x_Ausgangberechnet = x;
-									y_Ausgangberechnet = y;
+									setZiehWerte(xn-x, "x", x, y, tiefe);
 
 								}
 							}
+						}
+						else {
+							break;
 						}
 					}
 					for(int xp = x+1; xp <= 6; xp++) {
 						if(spiel.getFigurtyp(xp, y).equals("leer")) {
 							if(spiel.exklusivfelder(x+(xp-x), y) == false) {
 								spiel.Bewegen(xp-x, "x", x, y);
-								if(spiel.UeberpruefeSchlagenGrobMaschine(x+(xp-x), y)) {
-									value = max(depth - 1, spiel);
-									spiel.BewegenRueckgaengig(xp-x, "x", x, y);
+								int anzahlGeschlageneFiguren = spiel.UeberpruefeSchlagenGrobMaschine(x+(xp-x), y);
+								value = min(depth - 1, spiel, anzahlGeschlageneFiguren+geschlagen);
+								spiel.BewegenRueckgaengig(xp-x, "x", x, y);
+								for(int i = 0; i < Math.abs(anzahlGeschlageneFiguren); i++) {
 									spiel.SchlagenRueckgaengig();
 								}
-								else {
-									value = max(depth - 1, spiel);
-									spiel.BewegenRueckgaengig(xp-x, "x", x, y);
-								}
-								if(value >= maxWert) {
+								if(value > maxWert) {
 									maxWert = value;
-									felderberechnet = xp-x;
-									richtungberechnet = "x";
-									x_Ausgangberechnet = x;
-									y_Ausgangberechnet = y;
+									setZiehWerte(xp-x, "x", x, y, tiefe);
 								}
 							}
+						}
+						else {
+							break;
 						}
 					}
 					for(int yn = y-1; yn >= 0; yn--) {
 						if(spiel.getFigurtyp(x, yn).equals("leer")) {
 							if(spiel.exklusivfelder(x, y+(yn-y)) == false) {
-								spiel.Bewegen(yn-y, "x", x, y);
-								if(spiel.UeberpruefeSchlagenGrobMaschine(x, y+(yn-y))) {
-									value = max(depth - 1, spiel);
-									spiel.BewegenRueckgaengig(yn-y, "x", x, y);
+								spiel.Bewegen(yn-y, "y", x, y);
+								int anzahlGeschlageneFiguren = spiel.UeberpruefeSchlagenGrobMaschine(x, y+(yn-y));
+								value = min(depth - 1, spiel, anzahlGeschlageneFiguren+geschlagen);
+								spiel.BewegenRueckgaengig(yn-y, "y", x, y);
+								for(int i = 0; i < Math.abs(anzahlGeschlageneFiguren); i++) {
 									spiel.SchlagenRueckgaengig();
 								}
-								else {
-									value = max(depth - 1, spiel);
-									spiel.BewegenRueckgaengig(yn-y, "x", x, y);
-								}
-								if(value >= maxWert) {
+								if(value > maxWert) {
 									maxWert = value;
-									felderberechnet = yn-y;
-									richtungberechnet = "x";
-									x_Ausgangberechnet = x;
-									y_Ausgangberechnet = y;
+									setZiehWerte(yn-y, "y", x, y, tiefe);
 								}
 							}
+						}
+						else {
+							break;
 						}
 					}
 					for(int yp = y+1; yp <= 6; yp++) {
 						if(spiel.getFigurtyp(x, yp).equals("leer")) {
 							if(spiel.exklusivfelder(x, y+(yp-y)) == false) {
-								spiel.Bewegen(yp-y, "x", x, y);
-								if(spiel.UeberpruefeSchlagenGrobMaschine(x, y+(yp-y))) {
-									value = max(depth - 1, spiel);
-									spiel.BewegenRueckgaengig(yp-y, "x", x, y);
+								spiel.Bewegen(yp-y, "y", x, y);
+								int anzahlGeschlageneFiguren = spiel.UeberpruefeSchlagenGrobMaschine(x, y+(yp-y));
+								value = min(depth - 1, spiel, anzahlGeschlageneFiguren+geschlagen);
+								spiel.BewegenRueckgaengig(yp-y, "y", x, y);
+								for(int i = 0; i < Math.abs(anzahlGeschlageneFiguren); i++) {
 									spiel.SchlagenRueckgaengig();
 								}
-								else {
-									value = max(depth - 1, spiel);
-									spiel.BewegenRueckgaengig(yp-y, "x", x, y);
-								}
-								if(value >= maxWert) {
+								if(value > maxWert) {
 									maxWert = value;
-									felderberechnet = yp-y;
-									richtungberechnet = "x";
-									x_Ausgangberechnet = x;
-									y_Ausgangberechnet = y;
+									setZiehWerte(yp-y, "y", x, y, tiefe);
 								}
 							}
+						}
+						else {
+							break;
 						}
 					}
 				}
@@ -161,11 +155,16 @@ public class ZUG_MASCHINE_LEICHT extends ZUG {
 		return maxWert;
 	}
 
-	int min(int depth, ARD_RI_TAFL spiel) {
+	int min(int depth, ARD_RI_TAFL spiel, int geschlagen) {
 		if(depth == 0 || UeberpruefeSieg(spiel)) {
-			return Auswertung(spiel);
+			/*
+			 * In der nachfolgenden Zeile muss "schwarz" als Parameter eingesetzt werden, da diese Auswertung 
+			 * ja von der min-Methode aufgerufen wird und evtl. geschlagene Figuren ja zugunsten von schwarz
+			 * angerechnet werden müssen.
+			 */
+			return Auswertung(spiel, geschlagen, "schwarz");
 		}
-		int minWert = 1000;
+		int minWert = 1001;
 		int value;
 
 
@@ -176,92 +175,80 @@ public class ZUG_MASCHINE_LEICHT extends ZUG {
 						if(spiel.getFigurtyp(xn, y).equals("leer")) {
 							if(spiel.exklusivfelder(x+(xn-x), y) == false) {
 								spiel.Bewegen(xn-x, "x", x, y);
-								if(spiel.UeberpruefeSchlagenGrobMaschine(x+(xn-x), y)) {
-									value = max(depth - 1, spiel);
-									spiel.BewegenRueckgaengig(xn-x, "x", x, y);
+								int anzahlGeschlageneFiguren = -1*spiel.UeberpruefeSchlagenGrobMaschine(x+(xn-x), y);
+								value = max(depth - 1, spiel, anzahlGeschlageneFiguren+geschlagen);
+								spiel.BewegenRueckgaengig(xn-x, "x", x, y);
+								for(int i = 0; i < Math.abs(anzahlGeschlageneFiguren); i++) {
 									spiel.SchlagenRueckgaengig();
-								}
-								else {
-									value = max(depth - 1, spiel);
-									spiel.BewegenRueckgaengig(xn-x, "x", x, y);
-								}									
-								if(value <= minWert) {
+								}								
+								if(value < minWert) {
 									minWert = value;
-									felderberechnet = xn-x;
-									richtungberechnet = "x";
-									x_Ausgangberechnet = x;
-									y_Ausgangberechnet = y;
+									setZiehWerte(xn-x, "x", x, y, tiefe);
 								}
 							}
+						}
+						else {
+							break;
 						}
 					}
 					for(int xp = x+1; xp <= 6; xp++) {
 						if(spiel.getFigurtyp(xp, y).equals("leer")) {
 							if(spiel.exklusivfelder(x+(xp-x), y) == false) {
 								spiel.Bewegen(xp-x, "x", x, y);
-								if(spiel.UeberpruefeSchlagenGrobMaschine(x+(xp-x), y)) {
-									value = max(depth - 1, spiel);
-									spiel.BewegenRueckgaengig(xp-x, "x", x, y);
+								int anzahlGeschlageneFiguren = -1*spiel.UeberpruefeSchlagenGrobMaschine(x+(xp-x), y);
+								value = max(depth - 1, spiel, anzahlGeschlageneFiguren+geschlagen);
+								spiel.BewegenRueckgaengig(xp-x, "x", x, y);
+								for(int i = 0; i < Math.abs(anzahlGeschlageneFiguren); i++) {
 									spiel.SchlagenRueckgaengig();
 								}
-								else {
-									value = max(depth - 1, spiel);
-									spiel.BewegenRueckgaengig(xp-x, "x", x, y);
-								}
-								if(value <= minWert) {
+								if(value < minWert) {
 									minWert = value;
-									felderberechnet = xp-x;
-									richtungberechnet = "x";
-									x_Ausgangberechnet = x;
-									y_Ausgangberechnet = y;
+									setZiehWerte(xp-x, "x", x, y, tiefe);
 								}
 							}
 						}
+						else {
+							break;
+						}
 					}
-					for(int yn = x-1; yn >= 0; yn--) {
+					for(int yn = y-1; yn >= 0; yn--) {
 						if(spiel.getFigurtyp(x, yn).equals("leer")) {
 							if(spiel.exklusivfelder(x, y+(yn-y)) == false) {
-								spiel.Bewegen(yn-y, "x", x, y);
-								if(spiel.UeberpruefeSchlagenGrobMaschine(x, y+(yn-y))) {
-									value = max(depth - 1, spiel);
-									spiel.BewegenRueckgaengig(yn-y, "x", x, y);
+								spiel.Bewegen(yn-y, "y", x, y);
+								int anzahlGeschlageneFiguren = -1*spiel.UeberpruefeSchlagenGrobMaschine(x, y+(yn-y));
+								value = max(depth - 1, spiel, anzahlGeschlageneFiguren+geschlagen);
+								spiel.BewegenRueckgaengig(yn-y, "y", x, y);
+								for(int i = 0; i < Math.abs(anzahlGeschlageneFiguren); i++) {
 									spiel.SchlagenRueckgaengig();
 								}
-								else {
-									value = max(depth - 1, spiel);
-									spiel.BewegenRueckgaengig(yn-y, "x", x, y);
-								}
-								if(value <= minWert) {
+								if(value < minWert) {
 									minWert = value;
-									felderberechnet = yn-y;
-									richtungberechnet = "x";
-									x_Ausgangberechnet = x;
-									y_Ausgangberechnet = y;
+									setZiehWerte(yn-y, "y", x, y, tiefe);
 								}
 							}
 						}
+						else {
+							break;
+						}
 					}
-					for(int yp = x+1; yp <= 6; yp++) {
+					for(int yp = y+1; yp <= 6; yp++) {
 						if(spiel.getFigurtyp(x, yp).equals("leer")) {
 							if(spiel.exklusivfelder(x, y+(yp-y)) == false) {
-								spiel.Bewegen(yp-y, "x", x, y);
-								if(spiel.UeberpruefeSchlagenGrobMaschine(x, y+(yp-y))) {
-									value = max(depth - 1, spiel);
-									spiel.BewegenRueckgaengig(yp-y, "x", x, y);
+								spiel.Bewegen(yp-y, "y", x, y);
+								int anzahlGeschlageneFiguren = -1*spiel.UeberpruefeSchlagenGrobMaschine(x, y+(yp-y));
+								value = max(depth - 1, spiel, anzahlGeschlageneFiguren+geschlagen);
+								spiel.BewegenRueckgaengig(yp-y, "y", x, y);
+								for(int i = 0; i < Math.abs(anzahlGeschlageneFiguren); i++) {
 									spiel.SchlagenRueckgaengig();
 								}
-								else {
-									value = max(depth - 1, spiel);
-									spiel.BewegenRueckgaengig(yp-y, "x", x, y);
-								}
-								if(value <= minWert) {
+								if(value < minWert) {
 									minWert = value;
-									felderberechnet = yp-y;
-									richtungberechnet = "x";
-									x_Ausgangberechnet = x;
-									y_Ausgangberechnet = y;
+									setZiehWerte(yp-y, "y", x, y, tiefe);
 								}
 							}
+						}
+						else {
+							break;
 						}
 					}
 				}
@@ -274,86 +261,74 @@ public class ZUG_MASCHINE_LEICHT extends ZUG {
 						if(spiel.getFigurtyp(xn, y).equals("leer")) {
 							if(spiel.exklusivfelder(x+(xn-x), y) == false) {
 								spiel.Bewegen(xn-x, "x", x, y);
-								if(spiel.UeberpruefeSchlagenGrobMaschine(x+(xn-x), y)) {
-									value = max(depth - 1, spiel);
-									spiel.BewegenRueckgaengig(xn-x, "x", x, y);
+								int anzahlGeschlageneFiguren = -1*spiel.UeberpruefeSchlagenGrobMaschine(x+(xn-x), y);
+								value = max(depth - 1, spiel, anzahlGeschlageneFiguren+geschlagen);
+								spiel.BewegenRueckgaengig(xn-x, "x", x, y);
+								for(int i = 0; i < Math.abs(anzahlGeschlageneFiguren); i++) {
 									spiel.SchlagenRueckgaengig();
-								}
-								else {
-									value = max(depth - 1, spiel);
-									spiel.BewegenRueckgaengig(xn-x, "x", x, y);
-								}									
-								if(value <= minWert) {
+								}								
+								if(value < minWert) {
 									minWert = value;
-									felderberechnet = xn-x;
-									richtungberechnet = "x";
-									x_Ausgangberechnet = x;
-									y_Ausgangberechnet = y;
+									setZiehWerte(xn-x, "x", x, y, tiefe);
 								}
 							}
+						}
+						else {
+							break;
 						}
 					}
 					for(int xp = x+1; xp <= 6; xp++) {
 						if(spiel.getFigurtyp(xp, y).equals("leer")) {
 							spiel.Bewegen(xp-x, "x", x, y);
-							if(spiel.UeberpruefeSchlagenGrobMaschine(x+(xp-x), y)) {
-								value = max(depth - 1, spiel);
-								spiel.BewegenRueckgaengig(xp-x, "x", x, y);
+							int anzahlGeschlageneFiguren = -1*spiel.UeberpruefeSchlagenGrobMaschine(x+(xp-x), y);
+							value = max(depth - 1, spiel, anzahlGeschlageneFiguren+geschlagen);
+							spiel.BewegenRueckgaengig(xp-x, "x", x, y);
+							for(int i = 0; i < Math.abs(anzahlGeschlageneFiguren); i++) {
 								spiel.SchlagenRueckgaengig();
 							}
-							else {
-								value = max(depth - 1, spiel);
-								spiel.BewegenRueckgaengig(xp-x, "x", x, y);
-							}
-							if(value <= minWert) {
+							if(value < minWert) {
 								minWert = value;
-								felderberechnet = xp-x;
-								richtungberechnet = "x";
-								x_Ausgangberechnet = x;
-								y_Ausgangberechnet = y;
+								setZiehWerte(xp-x, "x", x, y, tiefe);
 							}
 						}
+						else {
+							break;
+						}
 					}
-					for(int yn = x-1; yn >= 0; yn--) {
+					for(int yn = y-1; yn >= 0; yn--) {
 						if(spiel.getFigurtyp(x, yn).equals("leer")) {
-							spiel.Bewegen(yn-y, "x", x, y);
-							if(spiel.UeberpruefeSchlagenGrobMaschine(x, y+(yn-y))) {
-								value = max(depth - 1, spiel);
-								spiel.BewegenRueckgaengig(yn-y, "x", x, y);
+							spiel.Bewegen(yn-y, "y", x, y);
+							int anzahlGeschlageneFiguren = -1*spiel.UeberpruefeSchlagenGrobMaschine(x, y+(yn-y));
+							value = max(depth - 1, spiel, anzahlGeschlageneFiguren+geschlagen);
+							spiel.BewegenRueckgaengig(yn-y, "y", x, y);
+							for(int i = 0; i < Math.abs(anzahlGeschlageneFiguren); i++) {
 								spiel.SchlagenRueckgaengig();
 							}
-							else {
-								value = max(depth - 1, spiel);
-								spiel.BewegenRueckgaengig(yn-y, "x", x, y);
-							}
-							if(value <= minWert) {
+							if(value < minWert) {
 								minWert = value;
-								felderberechnet = yn-y;
-								richtungberechnet = "x";
-								x_Ausgangberechnet = x;
-								y_Ausgangberechnet = y;
+								setZiehWerte(yn-y, "y", x, y, tiefe);
 							}
 						}
+						else {
+							break;
+						}
 					}
-					for(int yp = x+1; yp <= 6; yp++) {
+					for(int yp = y+1; yp <= 6; yp++) {
 						if(spiel.getFigurtyp(x, yp).equals("leer")) {
-							spiel.Bewegen(yp-y, "x", x, y);
-							if(spiel.UeberpruefeSchlagenGrobMaschine(x, y+(yp-y))) {
-								value = max(depth - 1, spiel);
-								spiel.BewegenRueckgaengig(yp-y, "x", x, y);
+							spiel.Bewegen(yp-y, "y", x, y);
+							int anzahlGeschlageneFiguren = -1*spiel.UeberpruefeSchlagenGrobMaschine(x, y+(yp-y));
+							value = max(depth - 1, spiel, anzahlGeschlageneFiguren+geschlagen);
+							spiel.BewegenRueckgaengig(yp-y, "y", x, y);
+							for(int i = 0; i < Math.abs(anzahlGeschlageneFiguren); i++) {
 								spiel.SchlagenRueckgaengig();
 							}
-							else {
-								value = max(depth - 1, spiel);
-								spiel.BewegenRueckgaengig(yp-y, "x", x, y);
-							}
-							if(value <= minWert) {
+							if(value < minWert) {
 								minWert = value;
-								felderberechnet = yp-y;
-								richtungberechnet = "x";
-								x_Ausgangberechnet = x;
-								y_Ausgangberechnet = y;
+								setZiehWerte(yp-y, "y", x, y, tiefe);
 							}
+						}
+						else {
+							break;
 						}
 					}
 				}
@@ -363,20 +338,49 @@ public class ZUG_MASCHINE_LEICHT extends ZUG {
 	}
 
 
-	//Schwarz maximiert immer und weiß minimiert immer
-	public int Auswertung(ARD_RI_TAFL spiel) {
+	/*
+	 * Schwarz maximiert immer und weiß minimiert immer
+	 * Evtl. muss noch gefixt werden, dass nicht nur true oder false für geschlagen ausgegeben werden kann, sondern auch, wie viele Figuren geschlagen wurden
+	 */
+	public int Auswertung(ARD_RI_TAFL spiel, int geschlagen, String team) {
 		int auswertung = 0;
 
-
-
-
-
-		if(UeberpruefeSiegWeiss(spiel)) {
-			auswertung = -1000;
+		auswertung = auswertung + (150*geschlagen);
+		
+		if(spiel.getFigurtyp(1, 0).equals("Koenig") || spiel.getFigurtyp(0, 1).equals("Koenig") 
+				|| spiel.getFigurtyp(5, 0).equals("Koenig") || spiel.getFigurtyp(0, 5).equals("Koenig")
+				|| spiel.getFigurtyp(1, 6).equals("Koenig") || spiel.getFigurtyp(6, 1).equals("Koenig")
+				|| spiel.getFigurtyp(6, 5).equals("Koenig") || spiel.getFigurtyp(5, 6).equals("Koenig")) {
+			auswertung = auswertung - 600;
 		}
+		
+		if(spiel.getFigurtyp(1, 1).equals("Koenig") || spiel.getFigurtyp(1, 5).equals("Koenig") 
+				|| spiel.getFigurtyp(5, 1).equals("Koenig") || spiel.getFigurtyp(5, 5).equals("Koenig")) {
+			auswertung = auswertung - 400;
+		}
+		
+		if(spiel.getFigurtyp(2, 0).equals("Koenig") || spiel.getFigurtyp(0, 2).equals("Koenig") 
+				|| spiel.getFigurtyp(4, 0).equals("Koenig") || spiel.getFigurtyp(0, 4).equals("Koenig") 
+				|| spiel.getFigurtyp(6, 2).equals("Koenig") || spiel.getFigurtyp(2, 6).equals("Koenig") 
+				|| spiel.getFigurtyp(6, 4).equals("Koenig") || spiel.getFigurtyp(4, 6).equals("Koenig")) {
+			auswertung = auswertung - 250;
+		}
+		
+		if(spiel.getFigurtyp(3, 0).equals("Koenig") || spiel.getFigurtyp(0, 3).equals("Koenig") 
+				|| spiel.getFigurtyp(6, 3).equals("Koenig") || spiel.getFigurtyp(3, 6).equals("Koenig")) {
+			auswertung = auswertung - 50;
+		}
+			
+
+
+
 		if(UeberpruefeSiegSchwarz(spiel)) {
 			auswertung = 1000;
 		}
+		if(UeberpruefeSiegWeiss(spiel)) {
+			auswertung = -1000;
+		}
+
 
 
 
@@ -508,14 +512,24 @@ public class ZUG_MASCHINE_LEICHT extends ZUG {
 			return "schwarz";
 		}
 	}
+	
+	public void setZiehWerte(int felder, String richtung, int x_Ausgang, int y_Ausgang, int aktuelleTiefe) {
+		if(aktuelleTiefe==tiefe) {
+			felderberechnet = felder;
+			richtungberechnet = richtung;
+			x_Ausgangberechnet = x_Ausgang;
+			y_Ausgangberechnet = y_Ausgang;
+		}
+	}
+	
 
 	public static void main(String[] args) {
 		ZUG_MASCHINE_LEICHT s = new ZUG_MASCHINE_LEICHT("schwarz");
 		ARD_RI_TAFL p = new ARD_RI_TAFL();
-		System.out.println("\n"+s.MoeglicheZuegeAnzahl(p, "schwarz", 1));
+		System.out.println("\n"+s.MoeglicheZuegeAnzahl(p, "schwarz", 5));
 		System.out.println("---------");
 		s.anzahl = 0;
-		System.out.println(s.MoeglicheZuegeAnzahl(p, "weiss", 1));
+		System.out.println(s.MoeglicheZuegeAnzahl(p, "weiss", 5));
 
 	}
 

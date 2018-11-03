@@ -93,5 +93,6 @@ public abstract class ZUG {
 	public int RueckgabeyAusgang() {
 		return y_Ausgangberechnet;
 	}
+	
 
 }

@@ -84,7 +84,7 @@
   </class>  
   <class id="10" language="java" name="ZUG_MASCHINE_LEICHT" project="Hnefatafl-W-Seminar" 
     file="/Hnefatafl-W-Seminar/src/ZUG_MASCHINE_LEICHT.java" binary="false" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="865" y="675"/>    
+    <position height="-1" width="-1" x="635" y="701"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="true" package="true" protected="true" private="true" static="true"/>      
@@ -100,56 +100,77 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <generalization id="12">    
-    <end type="SOURCE" refId="6"/>    
+  <class id="12" language="java" name="ZUG_MASCHINE_SCHWER" project="Hnefatafl-W-Seminar" 
+    file="/Hnefatafl-W-Seminar/src/ZUG_MASCHINE_SCHWER.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="966" y="704"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="true" package="true" protected="true" private="true" static="true"/>      
+      <operations public="true" package="true" protected="true" private="true" static="true"/>    
+    </display>  
+  </class>  
+  <generalization id="13">    
+    <end type="SOURCE" refId="4"/>    
     <end type="TARGET" refId="2"/>  
   </generalization>  
-  <association id="13">    
+  <association id="14">    
     <end type="SOURCE" refId="1" navigable="false">      
-      <attribute id="14" name="figur">        
+      <attribute id="15" name="figur">        
         <position height="0" width="0" x="878" y="254"/>      
       </attribute>      
-      <multiplicity id="15" minimum="0" maximum="1">        
+      <multiplicity id="16" minimum="0" maximum="1">        
         <position height="0" width="0" x="878" y="254"/>      
       </multiplicity>    
     </end>    
     <end type="TARGET" refId="2" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <association id="16">    
-    <end type="SOURCE" refId="11" navigable="false">      
-      <attribute id="17" name="spielfeld"/>      
-      <multiplicity id="18" minimum="0" maximum="2147483647"/>    
-    </end>    
-    <end type="TARGET" refId="1" navigable="true"/>    
-    <display labels="true" multiplicity="true"/>  
-  </association>  
-  <association id="19">    
+  <generalization id="17">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="2"/>  
+  </generalization>  
+  <generalization id="18">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="7"/>  
+  </generalization>  
+  <generalization id="19">    
+    <end type="SOURCE" refId="6"/>    
+    <end type="TARGET" refId="2"/>  
+  </generalization>  
+  <association id="20">    
     <end type="SOURCE" refId="9" navigable="false">      
-      <attribute id="20" name="spiel"/>      
-      <multiplicity id="21" minimum="0" maximum="1"/>    
+      <attribute id="21" name="spiel">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="22" minimum="0" maximum="1">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
     </end>    
     <end type="TARGET" refId="11" navigable="true"/>    
     <display labels="true" multiplicity="true"/>  
   </association>  
-  <generalization id="22">    
+  <generalization id="23">    
     <end type="SOURCE" refId="5"/>    
     <end type="TARGET" refId="2"/>  
   </generalization>  
-  <generalization id="23">    
-    <end type="SOURCE" refId="4"/>    
-    <end type="TARGET" refId="2"/>  
-  </generalization>  
   <generalization id="24">    
-    <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="2"/>  
-  </generalization>  
-  <generalization id="25">    
-    <end type="SOURCE" refId="8"/>    
+    <end type="SOURCE" refId="10"/>    
     <end type="TARGET" refId="7"/>  
   </generalization>  
-  <generalization id="26">    
-    <end type="SOURCE" refId="10"/>    
+  <association id="25">    
+    <end type="SOURCE" refId="11" navigable="false">      
+      <attribute id="26" name="spielfeld">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </attribute>      
+      <multiplicity id="27" minimum="0" maximum="2147483647">        
+        <position height="0" width="0" x="0" y="0"/>      
+      </multiplicity>    
+    </end>    
+    <end type="TARGET" refId="1" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="28">    
+    <end type="SOURCE" refId="12"/>    
     <end type="TARGET" refId="7"/>  
   </generalization>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 

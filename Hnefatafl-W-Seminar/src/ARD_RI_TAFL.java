@@ -55,7 +55,7 @@ public class ARD_RI_TAFL {
 		this.spielfeld[1][3] = new FELD(new RUSSE());
 		this.spielfeld[3][5] = new FELD(new RUSSE());
 		this.spielfeld[5][3] = new FELD(new RUSSE());
-		
+
 		this.spielfeld[2][2] = new FELD(new SCHWEDE());
 		this.spielfeld[2][4] = new FELD(new SCHWEDE());
 		this.spielfeld[4][2] = new FELD(new SCHWEDE());
@@ -69,7 +69,7 @@ public class ARD_RI_TAFL {
 		for(int x=0; x<=6; x++) {
 			System.out.print(x+1+" ");
 		}
-		
+
 		System.out.print("\n");
 
 		for(int y=0; y<=6; y++) {
@@ -100,13 +100,13 @@ public class ARD_RI_TAFL {
 		FIGUR tempFigur = getFigur(x_Ausgang, y_Ausgang); //temporäre Figur wird erstellt die eine Kopie der verschobenen Figur ist
 		setFigurtyp(x_Ausgang, y_Ausgang, new LEER()); //Altes Feld wird leer
 		setFigurtyp(x_Ausgang+(felder*x_Faktor), y_Ausgang+(felder*y_Faktor), tempFigur); //Kopie der Figur wird auf das Zielfeld gestellt
-			
+
 	}
-		
-	
+
+
 
 	public void BewegenRueckgaengig(int felder, String richtung, int x_Ausgang, int y_Ausgang) {
-		
+
 		//Bewegen zurücksetzen
 		if(richtung.equals("x")) {
 			x_Ausgang = x_Ausgang + felder;
@@ -116,15 +116,15 @@ public class ARD_RI_TAFL {
 		}
 		felder = -felder;
 		Bewegen(felder, richtung, x_Ausgang, y_Ausgang);
-		
+
 	}
-	
+
 	/*
 	 * Wenn eine Figur während der Berechnung geschlagen wurde, wird diese Methode aufgerufen um die Figur wieder zurückzustellen, ehe das Spielbrett durcheinander "gewürfelt" wird
 	 */
 	public void SchlagenRueckgaengig() {
 		FIGUR tempfig;
-		
+
 		if(geschlageneFigurenTypus.get(geschlageneFigurenTypus.size()-1) == 2) {
 			tempfig = new KOENIG();
 		}
@@ -134,20 +134,23 @@ public class ARD_RI_TAFL {
 		else {
 			tempfig = new RUSSE();
 		}
-		
-		geschlageneFigurenPosition.remove(geschlageneFigurenPosition.size()-1);
-		geschlageneFigurenPosition.remove(geschlageneFigurenPosition.size()-1);
-		geschlageneFigurenTypus.remove(geschlageneFigurenTypus.size()-1);
-		
+
 		setFigurtyp(geschlageneFigurenPosition.get(geschlageneFigurenPosition.size()-2), geschlageneFigurenPosition.get(geschlageneFigurenPosition.size()-1), tempfig);
-		
+
+		geschlageneFigurenPosition.remove(geschlageneFigurenPosition.size()-1);
+		geschlageneFigurenPosition.remove(geschlageneFigurenPosition.size()-1);
+		geschlageneFigurenTypus.remove(geschlageneFigurenTypus.size()-1);	
+
 	}
 
-	
-	
-	
 
-	public boolean UeberpruefeSchlagenGrobMaschine(int x_End, int y_End) {
+
+
+
+	/*
+	 * UeberpruefeSchlagenGrobMaschine kann nur 
+	 */
+	public int UeberpruefeSchlagenGrobMaschine(int x_End, int y_End) {
 
 		/*
 		 * "dieserFigurtyp" meint eigentlich "dieseFigurtypKategorie". Da die Variable aber so oft benötigt wird, wurde
@@ -155,56 +158,62 @@ public class ARD_RI_TAFL {
 		 * Bock mehr das noch mal mit STRG + F alles umzubenennen (Change it in the end if you mind)
 		 */
 
+		int geschlageneFiguren = 0;
 		String dieserFigurtyp;
 		dieserFigurtyp = getFigurtypKategorie(x_End, y_End);
 
 
 
+
 		if(x_End > 1) {
 			if(!getFigurtypKategorie(x_End-1, y_End).equals(dieserFigurtyp) && !"leer".equals(getFigurtypKategorie(x_End-1,  y_End))) {
-				return UeberpruefeSchlagenDetailMaschine(x_End-1, y_End, getFigurtyp(x_End-1, y_End), dieserFigurtyp, "x");
+				geschlageneFiguren += UeberpruefeSchlagenDetailMaschine(x_End-1, y_End, getFigurtyp(x_End-1, y_End), dieserFigurtyp, "x");
 			}
 		}
 
 		if(x_End < 5) {
 			if(!getFigurtypKategorie(x_End+1, y_End).equals(dieserFigurtyp) && !"leer".equals(getFigurtypKategorie(x_End+1,  y_End))) {
-				return UeberpruefeSchlagenDetailMaschine(x_End+1, y_End, getFigurtyp(x_End+1, y_End), dieserFigurtyp ,"x");
+				geschlageneFiguren += UeberpruefeSchlagenDetailMaschine(x_End+1, y_End, getFigurtyp(x_End+1, y_End), dieserFigurtyp ,"x");
 			}
 		}
 
 		if(y_End > 1) {
 			if(!getFigurtypKategorie(x_End, y_End-1).equals(dieserFigurtyp) && !"leer".equals(getFigurtypKategorie(x_End,  y_End-1))) {
-				return UeberpruefeSchlagenDetailMaschine(x_End, y_End-1, getFigurtyp(x_End, y_End-1), dieserFigurtyp, "y");
+				geschlageneFiguren += UeberpruefeSchlagenDetailMaschine(x_End, y_End-1, getFigurtyp(x_End, y_End-1), dieserFigurtyp, "y");
 			}
 		}
 
 		if(y_End < 5) {
 			if(!getFigurtypKategorie(x_End, y_End+1).equals(dieserFigurtyp) && !"leer".equals(getFigurtypKategorie(x_End,  y_End+1))) {
-				return UeberpruefeSchlagenDetailMaschine(x_End, y_End+1, getFigurtyp(x_End, y_End+1), dieserFigurtyp, "y");
+				geschlageneFiguren += UeberpruefeSchlagenDetailMaschine(x_End, y_End+1, getFigurtyp(x_End, y_End+1), dieserFigurtyp, "y");
 			}
 		}
-		return false;
+		return geschlageneFiguren;
 	}
 
 
-	
-	
-	public boolean UeberpruefeSchlagenDetailMaschine(int x, int y, String figurtypBesiegter, String figurtypKategorieBesieger, String Schlagrichtung) {
+
+
+	public int UeberpruefeSchlagenDetailMaschine(int x, int y, String figurtypBesiegter, String figurtypKategorieBesieger, String Schlagrichtung) {
 		if("Koenig".equals(figurtypBesiegter)) {
-			if(getFigurtypKategorie(x-1, y).equals(figurtypKategorieBesieger) && getFigurtypKategorie(x+1, y).equals(figurtypKategorieBesieger)
-					&& getFigurtypKategorie(x, y+1).equals(figurtypKategorieBesieger) && getFigurtypKategorie(x, y-1).equals(figurtypKategorieBesieger)) {
-				setFigurtyp(x, y, new LEER());
-				geschlageneFigurenPosition.add(x);
-				geschlageneFigurenPosition.add(y);
-				geschlageneFigurenTypus.add(2);
-				return true;
+			if(x < 6 && x > 0 && y < 6 && y > 0) {
+				if((getFigurtypKategorie(x-1, y).equals(figurtypKategorieBesieger) || exklusivfelder(x-1, y)) 
+						&& (getFigurtypKategorie(x+1, y).equals(figurtypKategorieBesieger) || exklusivfelder(x+1, y))
+						&& (getFigurtypKategorie(x, y+1).equals(figurtypKategorieBesieger) || exklusivfelder(x, y+1)) 
+						&& (getFigurtypKategorie(x, y-1).equals(figurtypKategorieBesieger) || exklusivfelder(x, y-1))) {
+					setFigurtyp(x, y, new LEER());
+					geschlageneFigurenPosition.add(x);
+					geschlageneFigurenPosition.add(y);
+					geschlageneFigurenTypus.add(2);
+					return 1;
+				}
 			}
 		}
 		else
 		{
 			if(Schlagrichtung.equals("x")) {
-				if((getFigurtypKategorie(x-1, y).equals(figurtypKategorieBesieger) || randfelder(x-1, y)) 
-						&& (getFigurtypKategorie(x+1, y).equals(figurtypKategorieBesieger) || randfelder(x+1, y))) {
+				if((getFigurtypKategorie(x-1, y).equals(figurtypKategorieBesieger) || exklusivfelder(x-1, y)) 
+						&& (getFigurtypKategorie(x+1, y).equals(figurtypKategorieBesieger) || exklusivfelder(x+1, y))) {
 					setFigurtyp(x, y, new LEER());
 					geschlageneFigurenPosition.add(x);
 					geschlageneFigurenPosition.add(y);
@@ -214,13 +223,13 @@ public class ARD_RI_TAFL {
 					else {
 						geschlageneFigurenTypus.add(0);
 					}
-					return true;
-					
+					return 1;
+
 				}
 			}
 			if(Schlagrichtung.equals("y")) {
-				if((getFigurtypKategorie(x, y+1).equals(figurtypKategorieBesieger) || randfelder(x, y+1)) 
-						&& (getFigurtypKategorie(x, y-1).equals(figurtypKategorieBesieger) || randfelder(x, y-1))) {
+				if((getFigurtypKategorie(x, y+1).equals(figurtypKategorieBesieger) || exklusivfelder(x, y+1)) 
+						&& (getFigurtypKategorie(x, y-1).equals(figurtypKategorieBesieger) || exklusivfelder(x, y-1))) {
 					setFigurtyp(x, y, new LEER());
 					geschlageneFigurenPosition.add(x);
 					geschlageneFigurenPosition.add(y);
@@ -230,13 +239,13 @@ public class ARD_RI_TAFL {
 					else {
 						geschlageneFigurenTypus.add(0);
 					}
-					return true;
+					return 1;
 				}
 			}
 		}
-		return false;
+		return 0;
 	}
-	
+
 
 	/*
 	 * NOCH UNFERTIG MUSS MÖGLICHKEIT BIETEN FÜR BEIDE SEITEN ZU FUNKTIONIEREN (NICHT NUR WEISS)
@@ -288,15 +297,15 @@ public class ARD_RI_TAFL {
 
 	 */
 
-	
+
 
 	public boolean exklusivfelder(int x, int y) {
-		if(x==4 && y==4 || x==0 && y==0 || x==0 && y==6 || x==6 && y==0 || x==6 && y==6) {
+		if(x==3 && y==3 || x==0 && y==0 || x==0 && y==6 || x==6 && y==0 || x==6 && y==6) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	public boolean randfelder(int x, int y) {
 		if(x==0 && y==0 || x==0 && y==6 || x==6 && y==0 || x==6 && y==6) {
 			return true;
@@ -335,17 +344,17 @@ public class ARD_RI_TAFL {
 		return spielfeld;
 
 	}
-	
+
 	public static void main(String[] args) {
 		@SuppressWarnings("unused")
 		ARD_RI_TAFL s = new ARD_RI_TAFL();
 	}
 
-	
 
-	
 
-	
+
+
+
 
 
 
