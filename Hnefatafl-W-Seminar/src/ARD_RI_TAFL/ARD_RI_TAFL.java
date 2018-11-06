@@ -31,7 +31,7 @@ public class ARD_RI_TAFL {
 	public ARD_RI_TAFL() {
 		this.spielfeld = new FELD[7][7];
 		Startaufstellung();
-		Konsolenausgabe();
+		//Konsolenausgabe();
 		//geschlageneFigurenPosition wird sich nur um die Figuren kümmern die während der Berechnung des "maschinellen Zuges" geschlagen wurden, so dass sie "wiederbelebt" werden können
 		geschlageneFigurenPosition = new ArrayList<Integer>(); 
 		//geschlageneFigurenTypus wird sich nur um die Figuren kümmern die während der Berechnung des "maschinellen Zuges" geschlagen wurden, so dass sie "wiederbelebt" werden können
@@ -86,6 +86,10 @@ public class ARD_RI_TAFL {
 	}
 
 
+	/*
+	 * Hier ist nur noch die Bewegung. 
+	 * Hier wird nicht geprüft ob der Zug erlaubt ist.
+	 */
 	public void Bewegen(int felder, String richtung, int x_Ausgang, int y_Ausgang) {
 
 		int x_Faktor = 0;
@@ -107,6 +111,9 @@ public class ARD_RI_TAFL {
 
 
 
+	/*
+	 * Notwendig für die ZUG_MASCHINE_... Klassen, da diese bei der Berechnung Züge ausführen und dann auch wieder rückgängig machen müssen
+	 */
 	public void BewegenRueckgaengig(int felder, String richtung, int x_Ausgang, int y_Ausgang) {
 
 		//Bewegen zurücksetzen
@@ -122,7 +129,10 @@ public class ARD_RI_TAFL {
 	}
 
 	/*
-	 * Wenn eine Figur während der Berechnung geschlagen wurde, wird diese Methode aufgerufen um die Figur wieder zurückzustellen, ehe das Spielbrett durcheinander "gewürfelt" wird
+	 * Wenn eine Figur während der Berechnung geschlagen wurde, wird diese Methode aufgerufen um die Figur wieder 
+	 * zurückzustellen, ehe das Spielbrett durcheinander "gewürfelt" wird.
+	 * Koordinaten der Figur wurden in einer ArrayList zwischengespeichert.
+	 * Ist eigentlich echt intelligent von dem Autor gelöst.
 	 */
 	public void SchlagenRueckgaengig() {
 		FIGUR tempfig;
@@ -150,14 +160,13 @@ public class ARD_RI_TAFL {
 
 
 	/*
-	 * UeberpruefeSchlagenGrobMaschine kann nur 
+	 * Gleiche Methode wie UeberpruefeSchlagenGrob(int x, int y) allerdings ruft diese Methode UeberpruefeSchlagenDetailMaschine auf
 	 */
 	public int UeberpruefeSchlagenGrobMaschine(int x_End, int y_End) {
 
 		/*
 		 * "dieserFigurtyp" meint eigentlich "dieseFigurtypKategorie". Da die Variable aber so oft benötigt wird, wurde
-		 * sie hier vereinfacht nur "dieserFigurtyp" genannt. (Außerdem hatte ich das jetzt schon so gemacht und keinen
-		 * Bock mehr das noch mal mit STRG + F alles umzubenennen (Change it in the end if you mind)
+		 * sie hier vereinfacht nur "dieserFigurtyp" genannt. (Change it in the end if you mind)
 		 */
 
 		int geschlageneFiguren = 0;
@@ -196,6 +205,10 @@ public class ARD_RI_TAFL {
 
 
 
+	/*
+	 * Gleiche Methode wie UeberpruefeSchlagenDetail nur speichert diese Methode die geschlagen Figuren in einer ArrayList, sodass sie von
+	 * der Methode SchlagenRueckgaengig() wiederbelebt werden können
+	 */
 	public int UeberpruefeSchlagenDetailMaschine(int x, int y, String figurtypBesiegter, String figurtypKategorieBesieger, String Schlagrichtung) {
 		if("Koenig".equals(figurtypBesiegter)) {
 			if(x < 6 && x > 0 && y < 6 && y > 0) {
@@ -249,58 +262,10 @@ public class ARD_RI_TAFL {
 	}
 
 
+
 	/*
-	 * NOCH UNFERTIG MUSS MÖGLICHKEIT BIETEN FÜR BEIDE SEITEN ZU FUNKTIONIEREN (NICHT NUR WEISS)
-	 * AUSSERDEM MUSS DER CODE GEKÜRZT WERDEN (SCHWARZ/WEISS (CHECK), TÜRME/KOENIG, End 2/End 10, x/y)
-	 * EDIT: TÜRME/KOENIG End 2/End 10 VERKÜRZUNG NICHT SO WIRKLICH MÖGLICH, WEIL SOWIESO ALLES GEPRÜFT WERDEN MUSS
-	 * EVTL. WENN LINKS/OBEN/RECHTS/UNTEN GEGNER DANN PRÜFE DIE 4 FELDER DARUMHERUM (WENN KÖNIG DANN MÜSSEN ALLE 4
-	 * BESETZT SEIN, WENN TURM DANN NUR 2 GEGENÜBERLIEGENDE)
-	 * x/y VERKÜRZUNG AUCH NICHT WIRKLICH MÖGLICH, WEIL IMMER NOCH ALLES GEPRÜFT WERDEN MUSS
-	 * EVTL. ARBEITEN MIT VARIABLEN DIE DIE X/Y KOORDINATEN DER ZU PRÜFENDEN FIGUR BESCHREIBT UND DANN ÜBERPRÜFUNG
-	 * MIT +1/-1 etc.
-	 *
-	public void UeberpruefeSchlagen(int x_End, int y_End) {
-
-		String dieserFigurtyp;
-
-		dieserFigurtyp = getFigurtypKategorie(x_End, y_End);
-
-
-
-		if(x_End > 2) {
-			if(!getFigurtypKategorie(x_End-1, y_End).equals(dieserFigurtyp)) {
-				if(getFigurtypKategorie(x_End-2, y_End).equals(dieserFigurtyp)) {
-					setFigurtyp(x_End-1, y_End, new LEER());
-				}
-			}
-		}
-		if(x_End < 10) {
-			if(!getFigurtypKategorie(x_End+1, y_End).equals(dieserFigurtyp)) {
-				if(getFigurtypKategorie(x_End+2, y_End).equals(dieserFigurtyp)) {
-					setFigurtyp(x_End+1, y_End, new LEER());
-				}
-			}
-		}
-		if(y_End > 2) {
-			if(!getFigurtypKategorie(x_End, y_End-1).equals(dieserFigurtyp)) {
-				if(getFigurtypKategorie(x_End, y_End-2).equals(dieserFigurtyp)) {
-					setFigurtyp(x_End, y_End-1, new LEER());
-				}
-			}
-		}
-		if(y_End < 10) {
-			if(!getFigurtypKategorie(x_End, y_End+1).equals(dieserFigurtyp)) {
-				if(getFigurtypKategorie(x_End, y_End+2).equals(dieserFigurtyp)) {
-					setFigurtyp(x_End, y_End+1, new LEER());
-				}
-			}
-		}
-	}
-
+	 * exklusivfelder sind felder die nur der König betreten darf
 	 */
-
-
-
 	public boolean exklusivfelder(int x, int y) {
 		if(x==3 && y==3 || x==0 && y==0 || x==0 && y==6 || x==6 && y==0 || x==6 && y==6) {
 			return true;
@@ -308,6 +273,9 @@ public class ARD_RI_TAFL {
 		return false;
 	}
 
+	/*
+	 * um genau zu sein müsste es eckfelder heißen, aber randfelder hat sich beim Programmieren einfach besser angefühlt
+	 */
 	public boolean randfelder(int x, int y) {
 		if(x==0 && y==0 || x==0 && y==6 || x==6 && y==0 || x==6 && y==6) {
 			return true;
@@ -338,6 +306,10 @@ public class ARD_RI_TAFL {
 
 
 
+	/*
+	 * gibt den relativen Ausgang aus.
+	 * Methode ist englisch weil... klingt irgendwie VIEL cooler.
+	 */
 	public int getrelativeausgang(int x_Faktor, int y_Faktor, int x_Ausgang, int y_Ausgang) {
 		return (x_Faktor*x_Ausgang)+(y_Faktor*y_Ausgang);
 	}

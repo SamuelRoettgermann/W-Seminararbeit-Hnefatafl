@@ -14,7 +14,7 @@ public class ZUG_MASCHINE_LEICHT extends ZUG {
 		richtungberechnet = "x";
 		x_Ausgangberechnet = 0;
 		y_Ausgangberechnet = 0;
-		tiefe = 3;
+		tiefe = 2;
 		
 	}
 
@@ -52,6 +52,8 @@ public class ZUG_MASCHINE_LEICHT extends ZUG {
 	/*
 	 * Noch fehlt die Auswertung des Zuges, sowie die Möglichkeit den Scheiß Zug zu speichern
 	 * EDIT: Der Scheiß Zug kann jetzt hoffentlich gespeichert werden
+	 * EDIT: Die Auswertung funzt eigentlich
+	 * EDIT: RIESENBUG WTF
 	 */
 
 	int max(int depth, ARD_RI_TAFL spiel, int geschlagen) {
@@ -63,7 +65,7 @@ public class ZUG_MASCHINE_LEICHT extends ZUG {
 			 */
 			return Auswertung(spiel, geschlagen,"weiss");
 		}
-		int maxWert = -1001;
+		int maxWert = -10000;
 		int value;
 
 
@@ -82,7 +84,7 @@ public class ZUG_MASCHINE_LEICHT extends ZUG {
 								}
 								if(value > maxWert) {
 									maxWert = value;
-									setZiehWerte(xn-x, "x", x, y, tiefe);
+									setZiehWerte(xn-x, "x", x, y, depth);
 
 								}
 							}
@@ -103,7 +105,7 @@ public class ZUG_MASCHINE_LEICHT extends ZUG {
 								}
 								if(value > maxWert) {
 									maxWert = value;
-									setZiehWerte(xp-x, "x", x, y, tiefe);
+									setZiehWerte(xp-x, "x", x, y, depth);
 								}
 							}
 						}
@@ -123,7 +125,7 @@ public class ZUG_MASCHINE_LEICHT extends ZUG {
 								}
 								if(value > maxWert) {
 									maxWert = value;
-									setZiehWerte(yn-y, "y", x, y, tiefe);
+									setZiehWerte(yn-y, "y", x, y, depth);
 								}
 							}
 						}
@@ -143,7 +145,7 @@ public class ZUG_MASCHINE_LEICHT extends ZUG {
 								}
 								if(value > maxWert) {
 									maxWert = value;
-									setZiehWerte(yp-y, "y", x, y, tiefe);
+									setZiehWerte(yp-y, "y", x, y, depth);
 								}
 							}
 						}
@@ -166,7 +168,7 @@ public class ZUG_MASCHINE_LEICHT extends ZUG {
 			 */
 			return Auswertung(spiel, geschlagen, "schwarz");
 		}
-		int minWert = 1001;
+		int minWert = 10000;
 		int value;
 
 
@@ -185,7 +187,7 @@ public class ZUG_MASCHINE_LEICHT extends ZUG {
 								}								
 								if(value < minWert) {
 									minWert = value;
-									setZiehWerte(xn-x, "x", x, y, tiefe);
+									setZiehWerte(xn-x, "x", x, y, depth);
 								}
 							}
 						}
@@ -205,7 +207,7 @@ public class ZUG_MASCHINE_LEICHT extends ZUG {
 								}
 								if(value < minWert) {
 									minWert = value;
-									setZiehWerte(xp-x, "x", x, y, tiefe);
+									setZiehWerte(xp-x, "x", x, y, depth);
 								}
 							}
 						}
@@ -225,7 +227,7 @@ public class ZUG_MASCHINE_LEICHT extends ZUG {
 								}
 								if(value < minWert) {
 									minWert = value;
-									setZiehWerte(yn-y, "y", x, y, tiefe);
+									setZiehWerte(yn-y, "y", x, y, depth);
 								}
 							}
 						}
@@ -245,7 +247,7 @@ public class ZUG_MASCHINE_LEICHT extends ZUG {
 								}
 								if(value < minWert) {
 									minWert = value;
-									setZiehWerte(yp-y, "y", x, y, tiefe);
+									setZiehWerte(yp-y, "y", x, y, depth);
 								}
 							}
 						}
@@ -271,7 +273,7 @@ public class ZUG_MASCHINE_LEICHT extends ZUG {
 								}								
 								if(value < minWert) {
 									minWert = value;
-									setZiehWerte(xn-x, "x", x, y, tiefe);
+									setZiehWerte(xn-x, "x", x, y, depth);
 								}
 							}
 						}
@@ -290,7 +292,7 @@ public class ZUG_MASCHINE_LEICHT extends ZUG {
 							}
 							if(value < minWert) {
 								minWert = value;
-								setZiehWerte(xp-x, "x", x, y, tiefe);
+								setZiehWerte(xp-x, "x", x, y, depth);
 							}
 						}
 						else {
@@ -308,7 +310,7 @@ public class ZUG_MASCHINE_LEICHT extends ZUG {
 							}
 							if(value < minWert) {
 								minWert = value;
-								setZiehWerte(yn-y, "y", x, y, tiefe);
+								setZiehWerte(yn-y, "y", x, y, depth);
 							}
 						}
 						else {
@@ -326,7 +328,7 @@ public class ZUG_MASCHINE_LEICHT extends ZUG {
 							}
 							if(value < minWert) {
 								minWert = value;
-								setZiehWerte(yp-y, "y", x, y, tiefe);
+								setZiehWerte(yp-y, "y", x, y, depth);
 							}
 						}
 						else {
@@ -353,7 +355,7 @@ public class ZUG_MASCHINE_LEICHT extends ZUG {
 				|| spiel.getFigurtyp(5, 0).equals("Koenig") || spiel.getFigurtyp(0, 5).equals("Koenig")
 				|| spiel.getFigurtyp(1, 6).equals("Koenig") || spiel.getFigurtyp(6, 1).equals("Koenig")
 				|| spiel.getFigurtyp(6, 5).equals("Koenig") || spiel.getFigurtyp(5, 6).equals("Koenig")) {
-			auswertung = auswertung - 600;
+			auswertung = auswertung - 4000;
 		}
 		
 		if(spiel.getFigurtyp(1, 1).equals("Koenig") || spiel.getFigurtyp(1, 5).equals("Koenig") 
@@ -377,10 +379,10 @@ public class ZUG_MASCHINE_LEICHT extends ZUG {
 
 
 		if(UeberpruefeSiegSchwarz(spiel)) {
-			auswertung = 1000;
+			auswertung = auswertung + 5000;
 		}
 		if(UeberpruefeSiegWeiss(spiel)) {
-			auswertung = -1000;
+			auswertung = auswertung - 5000;
 		}
 
 

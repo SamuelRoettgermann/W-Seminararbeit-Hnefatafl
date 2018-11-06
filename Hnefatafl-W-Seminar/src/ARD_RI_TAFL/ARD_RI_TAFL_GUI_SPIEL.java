@@ -1,6 +1,7 @@
 package ARD_RI_TAFL;
 
 import javafx.application.Application;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
@@ -219,6 +220,10 @@ public class ARD_RI_TAFL_GUI_SPIEL extends Application {
 		}
 
 
+		/*
+		 * Hier werden die Knöpfe und Kreise erstellt die die Mechanik der Felder, bzw. die optische Anzeige darstellen
+		 */
+		
 		erstauswahl = new ToggleButton[7][7];
 		zweitauswahl = new ToggleButton[7][7];
 		figuren = new Circle[7][7];
@@ -272,31 +277,11 @@ public class ARD_RI_TAFL_GUI_SPIEL extends Application {
 
 
 
-		
-
-
-
-
-
-
-
-
-		/*Kreuze bei den Exklusivfeldern
-    Line Kreuza = new Line();
-    Kreuza.setStartX(155);
-    Kreuza.setStartY(25);
-    Kreuza.setEndX(245);
-    Kreuza.setEndY(115);
-    Kreuza.setStrokeWidth(20);
-    Line Kreuzb = new Line(245, 25, 155, 115);
-    Kreuzb.setStrokeWidth(2);
-		 */
-
 		primaryStage.setOnCloseRequest(e -> System.exit(0));
 		primaryStage.setTitle("ARD_RI_TAFL_GUI_SPIEL");
 		primaryStage.setScene(scene);
 		primaryStage.show();
-		
+
 		ZugAusfuehrungMaschine();
 	}
 
@@ -321,25 +306,25 @@ public class ARD_RI_TAFL_GUI_SPIEL extends Application {
 
 	public void ZugAusfuehrungMaschine() {
 
-		try {
-			Thread.sleep(1500);
-		} 
-		catch (InterruptedException e) {}
-
 		if(aktivesTeam.equals("schwarz")) {
 			if(spielerRusseTesten.equals("einfach") || spielerRusseTesten.equals("schwer")) {
 				verwaltung.AmZug(0, "x", 0, 0);
+				Ereignisfeld.insertText(0, "Der Computer hat eine Figur von x="+(verwaltung.getspielerschwarzx_Ausgangberechnet()+1)+" y="+(verwaltung.getspielerschwarzy_Ausgangberechnet()+1)
+				+" um "+verwaltung.getspielerschwarzfelderberechnet()+" in "+verwaltung.getspielerschwarzrichtungberechnet()+"-Richtung verschoben"+"\n"+"\n");
 				aktivesTeam = verwaltung.getaktivesTeam();
 				aktualisiereFiguren();
 			}
 		} else if(aktivesTeam.equals("weiss")) {
 			if(spielerSchwedeTesten.equals("einfach") || spielerSchwedeTesten.equals("schwer")) {
 				verwaltung.AmZug(0, "x", 0, 0);
+				Ereignisfeld.insertText(0, "Der Computer hat eine Figur von x="+(verwaltung.getspielerweissx_Ausgangberechnet()+1)+" y="+(verwaltung.getspielerweissy_Ausgangberechnet()+1)
+				+" um "+verwaltung.getspielerweissfelderberechnet()+" in "+verwaltung.getspielerweissrichtungberechnet()+"-Richtung verschoben"+"\n"+"\n");
+				
 				aktivesTeam = verwaltung.getaktivesTeam();
 				aktualisiereFiguren();
 			}
 		}
-		
+
 
 	}
 
@@ -361,6 +346,7 @@ public class ARD_RI_TAFL_GUI_SPIEL extends Application {
 						verwaltung.AmZug(felder, richtung, x_Ausgang, y_Ausgang);
 						aktivesTeam = verwaltung.getaktivesTeam();
 						aktualisiereFiguren();
+						//System.out.println("\n"+"felder: "+felder+"\n"+"richtung: "+richtung+"\n"+"x_Ausgang: "+x_Ausgang+"\n"+"y_Ausgang: "+y_Ausgang);
 						gameloop();
 					}
 					else if((y+1) > y_Ausgang || (y+1) < y_Ausgang) {
@@ -369,10 +355,11 @@ public class ARD_RI_TAFL_GUI_SPIEL extends Application {
 						verwaltung.AmZug(felder, richtung, x_Ausgang, y_Ausgang);
 						aktivesTeam = verwaltung.getaktivesTeam();
 						aktualisiereFiguren();
+						//System.out.println("\n"+"felder: "+felder+"\n"+"richtung: "+richtung+"\n"+"x_Ausgang: "+x_Ausgang+"\n"+"y_Ausgang: "+y_Ausgang);
 						gameloop();
 					} 
 					else if((x+1) == x_Ausgang && (y+1) == y_Ausgang) {
-						Ereignisfeld.insertText(0, "Sie können Ihre Figur nicht auf der Stelle stehen lassen."+"\n"+"Bitte wählen Sie die Figur die Sie ziehen möchten erneut aus."+"\n"+"\n");
+						Ereignisfeld.insertText(0, "Sie können Ihre Figur nicht auf der Stelle stehen lassen."+"\n"+"Bitte wählen Sie die Figur, die Sie ziehen möchten erneut aus."+"\n"+"\n");
 					}
 
 
@@ -388,7 +375,6 @@ public class ARD_RI_TAFL_GUI_SPIEL extends Application {
 
 			}
 		}
-		System.out.println("Zweitauswahl: "+felder+" "+richtung);
 	}
 
 	public void gameloop() {
@@ -411,24 +397,25 @@ public class ARD_RI_TAFL_GUI_SPIEL extends Application {
 			}
 		} else {
 			ZugAusfuehrungMaschine();
-		}
-		
 
-		if(verwaltung.UeberpruefeSiegWeiss()) {
-			Ereignisfeld.insertText(0, "Weiß hat gewonnen!"+"\n"+"Sie können ein neues Spiel starten, indem Sie zum Menü zurückgehen."+"\n"+"\n"+"\n");
-			for(int i=0;i<=6;i++) {
-				for(int z=0;z<=6;z++) {
-					erstauswahl[z][i].setVisible(false);
-					zweitauswahl[z][i].setVisible(false);
+
+
+			if(verwaltung.UeberpruefeSiegWeiss()) {
+				Ereignisfeld.insertText(0, "Weiß hat gewonnen!"+"\n"+"Sie können ein neues Spiel starten, indem Sie zum Menü zurückgehen."+"\n"+"\n"+"\n");
+				for(int i=0;i<=6;i++) {
+					for(int z=0;z<=6;z++) {
+						erstauswahl[z][i].setVisible(false);
+						zweitauswahl[z][i].setVisible(false);
+					}
 				}
 			}
-		}
-		if(verwaltung.UeberpruefeSiegSchwarz()) {
-			Ereignisfeld.insertText(0, "Schwarz hat gewonnen!"+"\n"+"Sie können ein neues Spiel starten, indem Sie zum Menü zurückgehen."+"\n"+"\n"+"\n");
-			for(int i=0;i<=6;i++) {
-				for(int z=0;z<=6;z++) {
-					erstauswahl[z][i].setVisible(false);
-					zweitauswahl[z][i].setVisible(false);
+			if(verwaltung.UeberpruefeSiegSchwarz()) {
+				Ereignisfeld.insertText(0, "Schwarz hat gewonnen!"+"\n"+"Sie können ein neues Spiel starten, indem Sie zum Menü zurückgehen."+"\n"+"\n"+"\n");
+				for(int i=0;i<=6;i++) {
+					for(int z=0;z<=6;z++) {
+						erstauswahl[z][i].setVisible(false);
+						zweitauswahl[z][i].setVisible(false);
+					}
 				}
 			}
 		}
@@ -459,7 +446,7 @@ public class ARD_RI_TAFL_GUI_SPIEL extends Application {
 
 		System.out.println("Erstauswahl: "+x_Ausgang+" "+y_Ausgang);
 	}
-	
+
 	public void aktualisiereFiguren() {
 		for(int y=0;y<=6;y++) {
 			for(int x=0;x<=6;x++) {
@@ -481,6 +468,9 @@ public class ARD_RI_TAFL_GUI_SPIEL extends Application {
 				}
 			}
 		}
+
+
+
 	}
 
 	// Ende Methoden

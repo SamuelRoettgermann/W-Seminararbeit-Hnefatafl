@@ -1,5 +1,9 @@
 package ARD_RI_TAFL;
 
+/*
+ * VERALTETE KLASSE 
+ * Dient nur noch als Memoire, damit der Autor sich über seine anfängliche Unwissenheit amüsieren kann.
+ */
 
 public class SPIELFELDLINEAR {
 	// ALLGEMEINE INFORMATIONEN

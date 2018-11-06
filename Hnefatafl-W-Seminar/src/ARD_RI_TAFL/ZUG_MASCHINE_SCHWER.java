@@ -14,7 +14,7 @@ public class ZUG_MASCHINE_SCHWER extends ZUG {
 		richtungberechnet = "x";
 		x_Ausgangberechnet = 0;
 		y_Ausgangberechnet = 0;
-		tiefe = 5;
+		tiefe = 4;
 
 	}
 
@@ -82,7 +82,7 @@ public class ZUG_MASCHINE_SCHWER extends ZUG {
 								}
 								if(value > maxWert) {
 									maxWert = value;
-									setZiehWerte(xn-x, "x", x, y, tiefe);
+									setZiehWerte(xn-x, "x", x, y, depth);
 
 								}
 							}
@@ -103,7 +103,7 @@ public class ZUG_MASCHINE_SCHWER extends ZUG {
 								}
 								if(value > maxWert) {
 									maxWert = value;
-									setZiehWerte(xp-x, "x", x, y, tiefe);
+									setZiehWerte(xp-x, "x", x, y, depth);
 								}
 							}
 						}
@@ -123,7 +123,7 @@ public class ZUG_MASCHINE_SCHWER extends ZUG {
 								}
 								if(value > maxWert) {
 									maxWert = value;
-									setZiehWerte(yn-y, "y", x, y, tiefe);
+									setZiehWerte(yn-y, "y", x, y, depth);
 								}
 							}
 						}
@@ -143,7 +143,7 @@ public class ZUG_MASCHINE_SCHWER extends ZUG {
 								}
 								if(value > maxWert) {
 									maxWert = value;
-									setZiehWerte(yp-y, "y", x, y, tiefe);
+									setZiehWerte(yp-y, "y", x, y, depth);
 								}
 							}
 						}
@@ -185,7 +185,7 @@ public class ZUG_MASCHINE_SCHWER extends ZUG {
 								}								
 								if(value < minWert) {
 									minWert = value;
-									setZiehWerte(xn-x, "x", x, y, tiefe);
+									setZiehWerte(xn-x, "x", x, y, depth);
 								}
 							}
 						}
@@ -205,7 +205,7 @@ public class ZUG_MASCHINE_SCHWER extends ZUG {
 								}
 								if(value < minWert) {
 									minWert = value;
-									setZiehWerte(xp-x, "x", x, y, tiefe);
+									setZiehWerte(xp-x, "x", x, y, depth);
 								}
 							}
 						}
@@ -225,7 +225,7 @@ public class ZUG_MASCHINE_SCHWER extends ZUG {
 								}
 								if(value < minWert) {
 									minWert = value;
-									setZiehWerte(yn-y, "y", x, y, tiefe);
+									setZiehWerte(yn-y, "y", x, y, depth);
 								}
 							}
 						}
@@ -245,7 +245,7 @@ public class ZUG_MASCHINE_SCHWER extends ZUG {
 								}
 								if(value < minWert) {
 									minWert = value;
-									setZiehWerte(yp-y, "y", x, y, tiefe);
+									setZiehWerte(yp-y, "y", x, y, depth);
 								}
 							}
 						}
@@ -261,18 +261,16 @@ public class ZUG_MASCHINE_SCHWER extends ZUG {
 				if(spiel.getFigurtyp(x, y).equals("Koenig")) {
 					for(int xn = x-1; xn >= 0; xn--) {
 						if(spiel.getFigurtyp(xn, y).equals("leer")) {
-							if(spiel.exklusivfelder(x+(xn-x), y) == false) {
-								spiel.Bewegen(xn-x, "x", x, y);
-								int anzahlGeschlageneFiguren = -1*spiel.UeberpruefeSchlagenGrobMaschine(x+(xn-x), y);
-								value = max(depth - 1, spiel, anzahlGeschlageneFiguren+geschlagen);
-								spiel.BewegenRueckgaengig(xn-x, "x", x, y);
-								for(int i = 0; i < Math.abs(anzahlGeschlageneFiguren); i++) {
-									spiel.SchlagenRueckgaengig();
-								}								
-								if(value < minWert) {
-									minWert = value;
-									setZiehWerte(xn-x, "x", x, y, tiefe);
-								}
+							spiel.Bewegen(xn-x, "x", x, y);
+							int anzahlGeschlageneFiguren = -1*spiel.UeberpruefeSchlagenGrobMaschine(x+(xn-x), y);
+							value = max(depth - 1, spiel, anzahlGeschlageneFiguren+geschlagen);
+							spiel.BewegenRueckgaengig(xn-x, "x", x, y);
+							for(int i = 0; i < Math.abs(anzahlGeschlageneFiguren); i++) {
+								spiel.SchlagenRueckgaengig();
+							}								
+							if(value < minWert) {
+								minWert = value;
+								setZiehWerte(xn-x, "x", x, y, depth);
 							}
 						}
 						else {
@@ -290,7 +288,7 @@ public class ZUG_MASCHINE_SCHWER extends ZUG {
 							}
 							if(value < minWert) {
 								minWert = value;
-								setZiehWerte(xp-x, "x", x, y, tiefe);
+								setZiehWerte(xp-x, "x", x, y, depth);
 							}
 						}
 						else {
@@ -308,7 +306,7 @@ public class ZUG_MASCHINE_SCHWER extends ZUG {
 							}
 							if(value < minWert) {
 								minWert = value;
-								setZiehWerte(yn-y, "y", x, y, tiefe);
+								setZiehWerte(yn-y, "y", x, y, depth);
 							}
 						}
 						else {
@@ -326,7 +324,7 @@ public class ZUG_MASCHINE_SCHWER extends ZUG {
 							}
 							if(value < minWert) {
 								minWert = value;
-								setZiehWerte(yp-y, "y", x, y, tiefe);
+								setZiehWerte(yp-y, "y", x, y, depth);
 							}
 						}
 						else {
@@ -353,7 +351,7 @@ public class ZUG_MASCHINE_SCHWER extends ZUG {
 				|| spiel.getFigurtyp(5, 0).equals("Koenig") || spiel.getFigurtyp(0, 5).equals("Koenig")
 				|| spiel.getFigurtyp(1, 6).equals("Koenig") || spiel.getFigurtyp(6, 1).equals("Koenig")
 				|| spiel.getFigurtyp(6, 5).equals("Koenig") || spiel.getFigurtyp(5, 6).equals("Koenig")) {
-			auswertung = auswertung - 600;
+			auswertung = auswertung - 4000;
 		}
 
 		if(spiel.getFigurtyp(1, 1).equals("Koenig") || spiel.getFigurtyp(1, 5).equals("Koenig") 
@@ -379,28 +377,28 @@ public class ZUG_MASCHINE_SCHWER extends ZUG {
 		else if(spiel.getFigurtyp(2, 0).equals("Schwede") || spiel.getFigurtyp(0, 2).equals("Schwede")) {
 			auswertung = auswertung - 30;
 		}
-		
+
 		if(spiel.getFigurtyp(4, 0).equals("Schwede") && spiel.getFigurtyp(6, 2).equals("Schwede")) {
 			auswertung = auswertung - 90;
 		}
 		else if(spiel.getFigurtyp(4, 0).equals("Schwede") || spiel.getFigurtyp(6, 2).equals("Schwede")) {
 			auswertung = auswertung - 30;
 		}
-		
+
 		if(spiel.getFigurtyp(0, 4).equals("Schwede") && spiel.getFigurtyp(2, 6).equals("Schwede")) {
 			auswertung = auswertung - 90;
 		}
 		else if(spiel.getFigurtyp(0, 4).equals("Schwede") || spiel.getFigurtyp(2, 6).equals("Schwede")) {
 			auswertung = auswertung - 30;
 		}
-		
+
 		if(spiel.getFigurtyp(4, 6).equals("Schwede") && spiel.getFigurtyp(6, 4).equals("Schwede")) {
 			auswertung = auswertung - 90;
 		}
 		else if(spiel.getFigurtyp(4, 6).equals("Schwede") || spiel.getFigurtyp(6, 4).equals("Schwede")) {
 			auswertung = auswertung - 30;
 		}
-		
+
 		if(spiel.getFigurtyp(1, 0).equals("Russe")) {
 			auswertung = auswertung - 20;
 		}
@@ -425,43 +423,63 @@ public class ZUG_MASCHINE_SCHWER extends ZUG {
 		if(spiel.getFigurtyp(5, 6).equals("Russe")) {
 			auswertung = auswertung - 20;
 		}
-		if(spiel.getFigurtyp(2, 0).equals("Russe")) {
-			auswertung = auswertung + 40;
+		if(spiel.getFigurtyp(2, 0).equals("Russe") && spiel.getFigurtyp(1, 1).equals("Russe") && spiel.getFigurtyp(0, 2).equals("Russe")) {
+			auswertung = auswertung + 120;
 		}
-		if(spiel.getFigurtyp(1, 1).equals("Russe")) {
-			auswertung = auswertung + 40;
+		else {
+			if(spiel.getFigurtyp(2, 0).equals("Russe")) {
+				auswertung = auswertung + 30;
+			}
+			if(spiel.getFigurtyp(1, 1).equals("Russe")) {
+				auswertung = auswertung + 30;
+			}
+			if(spiel.getFigurtyp(0, 2).equals("Russe")) {
+				auswertung = auswertung + 30;
+			}
 		}
-		if(spiel.getFigurtyp(0, 2).equals("Russe")) {
-			auswertung = auswertung + 40;
+		if(spiel.getFigurtyp(4, 0).equals("Russe") && spiel.getFigurtyp(5, 1).equals("Russe") && spiel.getFigurtyp(6, 2).equals("Russe")) {
+			auswertung = auswertung + 120;
 		}
-		if(spiel.getFigurtyp(4, 0).equals("Russe")) {
-			auswertung = auswertung + 40;
+		else {
+			if(spiel.getFigurtyp(4, 0).equals("Russe")) {
+				auswertung = auswertung + 30;
+			}
+			if(spiel.getFigurtyp(5, 1).equals("Russe")) {
+				auswertung = auswertung + 30;
+			}
+			if(spiel.getFigurtyp(6, 2).equals("Russe")) {
+				auswertung = auswertung + 30;
+			}
 		}
-		if(spiel.getFigurtyp(5, 1).equals("Russe")) {
-			auswertung = auswertung + 40;
+		if(spiel.getFigurtyp(0, 4).equals("Russe") && spiel.getFigurtyp(1, 5).equals("Russe") && spiel.getFigurtyp(2, 6).equals("Russe")) {
+			auswertung = auswertung + 120;
 		}
-		if(spiel.getFigurtyp(6, 2).equals("Russe")) {
-			auswertung = auswertung + 40;
+		else {
+			if(spiel.getFigurtyp(0, 4).equals("Russe")) {
+				auswertung = auswertung + 30;
+			}
+			if(spiel.getFigurtyp(1, 5).equals("Russe")) {
+				auswertung = auswertung + 30;
+			}
+			if(spiel.getFigurtyp(2, 6).equals("Russe")) {
+				auswertung = auswertung + 30;
+			}
 		}
-		if(spiel.getFigurtyp(0, 4).equals("Russe")) {
-			auswertung = auswertung + 40;
+		if(spiel.getFigurtyp(6, 4).equals("Russe") && spiel.getFigurtyp(5, 5).equals("Russe") && spiel.getFigurtyp(4, 6).equals("Russe")) {
+			auswertung = auswertung + 120;
 		}
-		if(spiel.getFigurtyp(1, 5).equals("Russe")) {
-			auswertung = auswertung + 40;
+		else {
+			if(spiel.getFigurtyp(6, 4).equals("Russe")) {
+				auswertung = auswertung + 30;
+			}
+			if(spiel.getFigurtyp(5, 5).equals("Russe")) {
+				auswertung = auswertung + 30;
+			}
+			if(spiel.getFigurtyp(4, 6).equals("Russe")) {
+				auswertung = auswertung + 30;
+			}
 		}
-		if(spiel.getFigurtyp(2, 6).equals("Russe")) {
-			auswertung = auswertung + 40;
-		}
-		if(spiel.getFigurtyp(6, 4).equals("Russe")) {
-			auswertung = auswertung + 40;
-		}
-		if(spiel.getFigurtyp(5, 5).equals("Russe")) {
-			auswertung = auswertung + 40;
-		}
-		if(spiel.getFigurtyp(4, 6).equals("Russe")) {
-			auswertung = auswertung + 40;
-		}
-		
+
 
 
 

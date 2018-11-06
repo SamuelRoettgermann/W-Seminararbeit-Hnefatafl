@@ -15,6 +15,10 @@ public class VERWALTUNG {
 		this.spielerschwarz = spielerschwarz;
 	}
 
+	/*
+	 * Methode die von der GUI aufgerufen wird, wenn ein Zug durchgeführt werden muss
+	 * Gibt einen Befehl an die Zug Klasse das ein Zug durchgeführt werden soll mit den 4 Parametern felder, richtung, x und y
+	 */
 	public boolean AmZug(int felder, String richtung, int x_Ausgang, int y_Ausgang) {
 		int x_End;
 		int y_End;
@@ -31,7 +35,7 @@ public class VERWALTUNG {
 				}
 				UeberpruefeSchlagenGrob(x_End, y_End);
 				WechselAktivesTeam();
-				spiel.Konsolenausgabe();
+				//spiel.Konsolenausgabe();
 				return true;
 			}
 		}
@@ -49,7 +53,7 @@ public class VERWALTUNG {
 				}
 				UeberpruefeSchlagenGrob(x_End, y_End);
 				WechselAktivesTeam();
-				spiel.Konsolenausgabe();
+				//spiel.Konsolenausgabe();
 				return true;
 			}
 		}
@@ -58,16 +62,19 @@ public class VERWALTUNG {
 			System.out.println("\n"+"Figur des falschen Teams wurde bewegt. Bitte Figur des richtigen Teams bewegen");
 			return false;
 		}
-		spiel.Konsolenausgabe();
+		//spiel.Konsolenausgabe();
 		return false;
 
-
-
 	}
+	
+	
 
 
 
 
+	/*
+	 * Methode UeberpruefeSieg() ist zwar sinnvoll ist aber zu ungenau, weil die GUI nicht nur wissen will ob gewonnen wurde, sondern auch wer gewonnen hat
+	 */
 	/*
 	public void UeberpruefeSieg() {
 
@@ -114,6 +121,11 @@ public class VERWALTUNG {
 		return true;
 	}
 
+	
+	/*
+	 * Wenn eine gegnerische Einheit "bedroht" ist, eine befreundete Einheit also in einem Zug neben den Gegner gezogen ist, wird für
+	 * den Gegner geprüft ob sein letztes Stündlein geschlagen hat.
+	 */
 	public void UeberpruefeSchlagenGrob(int x_End, int y_End) {
 
 		/*
@@ -153,6 +165,9 @@ public class VERWALTUNG {
 	}
 
 
+	/*
+	 * Hier ist die genaue Prüfung für die bedrohte Figur
+	 */
 	public void UeberpruefeSchlagenDetail(int x, int y, String figurtypBesiegter, String figurtypKategorieBesieger, String Schlagrichtung) {
 		if("Koenig".equals(figurtypBesiegter)) {
 			if((getFigurtypKategorie(x-1, y).equals(figurtypKategorieBesieger) || spiel.exklusivfelder(x-1, y)) 
@@ -180,6 +195,9 @@ public class VERWALTUNG {
 		}
 	}
 
+	/*
+	 * Gibt die Teamfarbe einer Figur aus. x und y Koordinate vom entspr. Feld muss angegeben sein
+	 */
 	public String getFigurtypKategorie(int x, int y) {
 		if(getFigurtyp(x, y).equals("Russe")) {
 			return "schwarz";
@@ -190,6 +208,9 @@ public class VERWALTUNG {
 		return "leer";
 	}
 
+	/*
+	 * Gibt den Figurtyp aus (Koenig, Schwede, Russe oder leer)
+	 */
 	public String getFigurtyp(int x, int y) {
 		return this.spiel.getFigurtyp(x, y);
 	}
@@ -210,40 +231,68 @@ public class VERWALTUNG {
 	public String getaktivesTeam() {
 		return this.aktivesTeam;
 	}
+	
+	public int getspielerschwarzfelderberechnet() {
+		return spielerschwarz.RueckgabeFelder();
+	}
+	
+	public String getspielerschwarzrichtungberechnet() {
+		return spielerschwarz.RueckgabeRichtung();
+	}
+	
+	public int getspielerschwarzx_Ausgangberechnet() {
+		return spielerschwarz.RueckgabexAusgang();
+	}
+	
+	public int getspielerschwarzy_Ausgangberechnet() {
+		return spielerschwarz.RueckgabeyAusgang();
+	}
+	
+	public int getspielerweissfelderberechnet() {
+		return spielerweiss.RueckgabeFelder();
+	}
+	
+	public String getspielerweissrichtungberechnet() {
+		return spielerweiss.RueckgabeRichtung();
+	}
+	
+	public int getspielerweissx_Ausgangberechnet() {
+		return spielerweiss.RueckgabexAusgang();
+	}
+	
+	public int getspielerweissy_Ausgangberechnet() {
+		return spielerweiss.RueckgabeyAusgang();
+	}
 
 
 
 	public static void main(String[] args) {
-		ZUG spielerschwarztest = new ZUG_MASCHINE_LEICHT("schwarz");
-		ZUG spielerweisstest = new ZUG_MASCHINE_LEICHT("weiss");
+		ZUG spielerschwarztest = new ZUG_MENSCH("schwarz");
+		ZUG spielerweisstest = new ZUG_MASCHINE_SCHWER("weiss");
 		VERWALTUNG testspiel = new VERWALTUNG(spielerschwarztest, spielerweisstest);
 
+		testspiel.AmZug(-1, "y", 1, 3);
 		testspiel.AmZug(0, "x", 0, 0);
+		testspiel.AmZug(1, "y", 1, 5);
 		testspiel.AmZug(0, "x", 0, 0);
+		testspiel.AmZug(1, "y", 2, 4);
 		testspiel.AmZug(0, "x", 0, 0);
+		
+		testspiel.AmZug(-1, "x", 3, 1);
 		testspiel.AmZug(0, "x", 0, 0);
+		
+		testspiel.AmZug(1, "x", 2, 1);
 		testspiel.AmZug(0, "x", 0, 0);
+		
+		testspiel.AmZug(3, "x", 4, 2);
 		testspiel.AmZug(0, "x", 0, 0);
+		/*
+		testspiel.AmZug(1, "y", 3, 1);
 		testspiel.AmZug(0, "x", 0, 0);
+		
+		testspiel.AmZug(-2, "x", 4, 1);
 		testspiel.AmZug(0, "x", 0, 0);
-		testspiel.AmZug(0, "x", 0, 0);
-		testspiel.AmZug(0, "x", 0, 0);
-		testspiel.AmZug(0, "x", 0, 0);
-		testspiel.AmZug(0, "x", 0, 0);
-		testspiel.AmZug(0, "x", 0, 0);
-		testspiel.AmZug(0, "x", 0, 0);
-		testspiel.AmZug(0, "x", 0, 0);
-		testspiel.AmZug(0, "x", 0, 0);
-		testspiel.AmZug(0, "x", 0, 0);
-
-
-
-
-
-
-
-
-
+		*/
 	}
 
 

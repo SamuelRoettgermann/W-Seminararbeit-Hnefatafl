@@ -2,7 +2,11 @@ package ARD_RI_TAFL;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.scene.control.*;
 import javafx.event.*;
@@ -38,10 +42,11 @@ public class ARD_RI_TAFL_GUI_VORBEREITUNG extends Application {
   
   public void start(Stage primaryStage) { 
     Pane root = new Pane();
+    root.setBackground(new Background(new BackgroundFill(Color.rgb(204, 102, 0), CornerRadii.EMPTY, Insets.EMPTY)));
     Scene scene = new Scene(root, 1264, 682);
     this.primaryStage = primaryStage;
-    this.spielerRusse = "";
-    this.spielerSchwede = "";
+    this.spielerRusse = "mensch";
+    this.spielerSchwede = "mensch";
     // Anfang Komponenten
     
     ueberschriftRusse.setLayoutX(0);
@@ -134,10 +139,9 @@ public class ARD_RI_TAFL_GUI_VORBEREITUNG extends Application {
     uebergangSpiel.setOnAction(
       (event) -> {uebergangSpiel_Action(event);} 
     );
-    uebergangSpiel.setText("Auf in die Jagd!");
-    uebergangSpiel.setFont(Font.font("Dialog", 45));
+    uebergangSpiel.setText("Auf zur Jagd!");
+    uebergangSpiel.setFont(Font.font("Dialog", 50));
     uebergangSpiel.setAlignment(Pos.CENTER);
-    uebergangSpiel.setDisable(true);
     root.getChildren().add(uebergangSpiel);
     spielBeenden.setLayoutX(680);
     spielBeenden.setLayoutY(544);
@@ -166,55 +170,57 @@ public class ARD_RI_TAFL_GUI_VORBEREITUNG extends Application {
     this.spielerRusse = "mensch";
     auswahlSchwedeEinfach.setDisable(false);
     auswahlSchwedeSchwer.setDisable(false);
-    uebergangSpielEnable(spielerRusse, spielerSchwede);
+    //uebergangSpielEnable(spielerRusse, spielerSchwede);
   }
 
   public void auswahlRusseSchwer_Action(Event evt) {
     this.spielerRusse = "schwer";
     auswahlSchwedeEinfach.setDisable(true);
     auswahlSchwedeSchwer.setDisable(true);
-    uebergangSpielEnable(spielerRusse, spielerSchwede);
+    //uebergangSpielEnable(spielerRusse, spielerSchwede);
   }
 
   public void auswahlRusseEinfach_Action(Event evt) {
     this.spielerRusse = "einfach";
     auswahlSchwedeEinfach.setDisable(true);
     auswahlSchwedeSchwer.setDisable(true);
-    uebergangSpielEnable(spielerRusse, spielerSchwede);
+    //uebergangSpielEnable(spielerRusse, spielerSchwede);
   }
 
   public void auswahlSchwedeMensch_Action(Event evt) {
     this.spielerSchwede = "mensch";
     auswahlRusseEinfach.setDisable(false);
     auswahlRusseSchwer.setDisable(false);
-    uebergangSpielEnable(spielerRusse, spielerSchwede);
+    //uebergangSpielEnable(spielerRusse, spielerSchwede);
   }
 
   public void auswahlSchwedeSchwer_Action(Event evt) {
     this.spielerSchwede = "schwer";
     auswahlRusseEinfach.setDisable(true);
     auswahlRusseSchwer.setDisable(true);
-    uebergangSpielEnable(spielerRusse, spielerSchwede);
+    //uebergangSpielEnable(spielerRusse, spielerSchwede);
   }
 
   public void auswahlSchwedeEinfach_Action(Event evt) {
     this.spielerSchwede = "einfach";
     auswahlRusseEinfach.setDisable(true);
     auswahlRusseSchwer.setDisable(true);
-    uebergangSpielEnable(spielerRusse, spielerSchwede);
+    //uebergangSpielEnable(spielerRusse, spielerSchwede);
   }
 
   public void uebergangSpiel_Action(Event evt) {
     new ARD_RI_TAFL_GUI_SPIEL(spielerRusse, spielerSchwede).start(new Stage());
     primaryStage.close();
-    uebergangSpielEnable(spielerRusse, spielerSchwede);
+    //uebergangSpielEnable(spielerRusse, spielerSchwede);
   }
   
+  /*
   public void uebergangSpielEnable(String spielerRusse, String spielerSchwede) {
   if (!spielerRusse.equals("") && !spielerSchwede.equals("")) {
       uebergangSpiel.setDisable(false);
     }
   }
+  */
 
   public void spielBeenden_Action(Event evt) {
     primaryStage.close();
